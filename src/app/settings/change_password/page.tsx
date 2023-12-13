@@ -1,4 +1,4 @@
-import FormChangePassword from "@/components/FormChangePassword";
+import FormChangePassword from "@/components/forms/FormChangePassword";
 import Header from "@/components/layouts/Header";
 import React from "react";
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FormSignin from "../components/FormSignin";
+import FormSignin from "../components/forms/FormSignin";
 
 export default function Home() {
   return (
@@ -18,4 +18,4 @@ export default function Home() {
       </div>
     </div>
   );
-};
+}
