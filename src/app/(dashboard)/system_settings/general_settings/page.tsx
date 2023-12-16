@@ -1,8 +1,8 @@
-import React from "react";
-import Header from "@/components/layouts/Header";
+import FormChangePassword from "@/components/forms/FormChangePassword";
 import FormSettings from "@/components/forms/FormSettings";
+import Header from "@/components/layouts/Header";
 
-const SettingsPage = () => {
+const change_password = () => {
   return (
     <>
       <Header />
@@ -10,13 +10,10 @@ const SettingsPage = () => {
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl font-semibold">General Settings</h1>
         </div>
-
-        <div>
-          <FormSettings />
-        </div>
+        <FormSettings />
       </div>
     </>
   );
 };
 
-export default SettingsPage;
+export default change_password;

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import { FaPowerOff } from "react-icons/fa";
+import SignOutBtn from "../userAccounts/SignOutBtn";
 
-const Header = () => {
+const Header = async () => {
   return (
     <header>
       <div className="navbar bg-base-100">
@@ -29,13 +30,13 @@ const Header = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/admin">Dashboard</Link>
               </li>
               <li>
                 <a>List of Product</a>
                 <ul className="p-2">
                   <li>
-                    <Link href="/table">table</Link>
+                    <Link href="/table_list">table</Link>
                   </li>
                   <li>
                     <Link href="/food&beverage">Food &amp; Beverage</Link>
@@ -49,12 +50,12 @@ const Header = () => {
                 <a>Settings</a>
                 <ul className="p-2">
                   <li>
-                    <Link href="/settings/general_settings">
+                    <Link href="/system_settings/general_settings">
                       General Settings
                     </Link>
                   </li>
                   <li>
-                    <Link href="/settings/change_password">
+                    <Link href="/system_settings/change_password">
                       Change Password
                     </Link>
                   </li>
@@ -64,7 +65,7 @@ const Header = () => {
           </div>
           <div className="space-x-4">
             <Link
-              href="/dashboard"
+              href="/admin"
               className="btn btn-ghost text-xl uppercase font-bold"
             >
               LCCL Enterprise
@@ -81,14 +82,14 @@ const Header = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal text-lg px-1">
             <li>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/admin">Dashboard</Link>
             </li>
             <li>
               <details>
                 <summary>List of Products</summary>
                 <ul className="p-2 w-52">
                   <li>
-                    <Link href="/table">table</Link>
+                    <Link href="/table_list">table</Link>
                   </li>
                   <li>
                     <Link href="/food&beverage">Food &amp; Beverage</Link>
@@ -104,12 +105,12 @@ const Header = () => {
                 <summary>Settings</summary>
                 <ul className="p-2 w-52">
                   <li>
-                    <Link href="/settings/general_settings">
+                    <Link href="/system_settings/general_settings">
                       General Settings
                     </Link>
                   </li>
                   <li>
-                    <Link href="/settings/change_password">
+                    <Link href="/system_settings/change_password">
                       Change Password
                     </Link>
                   </li>
@@ -119,7 +120,7 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn btn-neutral">Sign Out</a>
+          <SignOutBtn />
         </div>
       </div>
     </header>
