@@ -18,3 +18,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone_no  String
+  address_1 String
+  address_2 String
+  City      String
+  State     String
+  PosCode   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

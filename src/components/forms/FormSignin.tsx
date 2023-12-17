@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { SignInValues } from "@/types/sign-in-values";
-import $ from "jquery";
 
 const FormSignin = () => {
   const router = useRouter();

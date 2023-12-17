@@ -1,4 +1,4 @@
-import AddTableBtn from "@/components/buttons.tsx/AddTableBtn";
+import AddTableBtn from "@/components/buttons/AddTableBtn";
 import Header from "@/components/layouts/Header";
 import ListofTables from "@/components/lists/ListofTables";
 import React, { useState } from "react";

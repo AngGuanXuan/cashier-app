@@ -3,7 +3,7 @@ import Header from "@/components/layouts/Header";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
 import ListofRates from "@/components/lists/ListofRates";
-import AddHourlyRateBtn from "@/components/buttons.tsx/AddHourlyRateBtn";
+import AddHourlyRateBtn from "@/components/buttons/AddHourlyRateBtn";
 
 const HourlyRate = () => {
   return (
