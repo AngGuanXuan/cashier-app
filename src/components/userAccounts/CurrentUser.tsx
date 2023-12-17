@@ -18,6 +18,17 @@ const currentuser = async () => {
           disabled
         />
       </div>
+      <div className="w-1/2 space-y-2">
+        <label className="text-neutral-700">Current User Email</label>
+        <input
+          type="text"
+          name="currentemail"
+          placeholder="Current User Email"
+          value={session?.user.email ? session?.user.email : ""}
+          className="input input-bordered !border-neutral-200 w-full"
+          disabled
+        />
+      </div>
     </div>
   );
 };

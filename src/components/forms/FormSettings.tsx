@@ -1,78 +1,232 @@
-import React from 'react';
+"use client";
+import { CompanyDetailsValues } from "@/types/company-details";
+import React, { ChangeEvent, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { IoIosSave } from "react-icons/io";
+import ListofStates from "../lists/ListofStates";
 
 const FormSettings = () => {
+  const [formData, setFormData] = useState<CompanyDetailsValues>({
+    name: "",
+    email: "",
+    phone_no: "",
+    address_1: "",
+    address_2: "",
+    city: "",
+    state: "",
+    posCode: "",
+  });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CompanyDetailsValues>();
+
+  const onSubmit: SubmitHandler<CompanyDetailsValues> = async (
+    formData: CompanyDetailsValues
+  ) => {
+    console.log(formData);
+  };
+
   return (
     <div className="w-full my-auto px-4">
-        <div className="w-full space-y-6">
-            <div>
-                <h2 className="text-xl font-semibold">Company Details</h2>
+      <div className="w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          method="POST"
+          className="space-y-6"
+        >
+          <div>
+            <h2 className="text-xl font-semibold">Company Details</h2>
+          </div>
+          <div className="flex space-x-4">
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Company Name</label>
+              <input
+                {...register("name", {
+                  required: "This field is required.",
+                })}
+                type="text"
+                name="name"
+                placeholder="Company Name"
+                className="input input-bordered w-full"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <span className="text-error ms-4 mt-4">
+                  {errors.name.message}
+                </span>
+              )}
             </div>
-            <div className="flex space-x-4">
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Company Name</label>
-                    <input type="text" placeholder="Company Name" className="input input-bordered w-full" />
-                </div>
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Company Email</label>
-                    <input type="email" placeholder="Company Email" className="input input-bordered w-full" />
-                </div>
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Company Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Company Email"
+                className="input input-bordered !border-neutral-200 w-full"
+                value={formData.email}
+                disabled
+              />
             </div>
-            <div className="w-1/2 pe-2 space-y-2">
-                <label className="text-neutral-700">Company Phone No.</label>
-                <input type="email" placeholder="Company Phone No." className="input input-bordered w-full" />
+          </div>
+          <div className="w-1/2 pe-2 space-y-2">
+            <label className="text-neutral-700">Company Phone No.</label>
+            <input
+              {...register("phone_no", {
+                required: "This field is required.",
+              })}
+              type="email"
+              name="phone_no"
+              placeholder="Company Phone No."
+              className="input input-bordered w-full"
+              value={formData.phone_no}
+              onChange={handleChange}
+            />
+            {errors.phone_no && (
+              <span className="text-error ms-4 mt-4">
+                {errors.phone_no.message}
+              </span>
+            )}
+          </div>
+          <div className="divider py-8"></div>
+          <div>
+            <h3 className="text-lg font-medium">Company Address</h3>
+          </div>
+          <div className="flex space-x-4">
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Address line 1</label>
+              <input
+                {...register("address_1", {
+                  required: "This field is required.",
+                })}
+                type="text"
+                name="address_1"
+                placeholder="Address Line 1"
+                className="input input-bordered w-full"
+                value={formData.address_1}
+                onChange={handleChange}
+              />
+              {errors.address_1 && (
+                <span className="text-error ms-4 mt-4">
+                  {errors.address_1.message}
+                </span>
+              )}
             </div>
-            <div className="divider py-8"></div> 
-            <div>
-                <h3 className="text-lg font-medium">Company Address</h3>
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Address line 2</label>
+              <input
+                {...register("address_2", {
+                  required: "This field is required.",
+                })}
+                type="text"
+                name="address_2"
+                placeholder="Address Line 2"
+                className="input input-bordered w-full"
+                value={formData.address_2}
+                onChange={handleChange}
+              />
+              {errors.address_2 && (
+                <span className="text-error ms-4 mt-4">
+                  {errors.address_2.message}
+                </span>
+              )}
             </div>
-            <div className="flex space-x-4">
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Address line 1</label>
-                    <input type="text" placeholder="Address Line 1" className="input input-bordered w-full" />
-                </div>
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Address line 2</label>
-                    <input type="text" placeholder="Address Line 2" className="input input-bordered w-full" />
-                </div>
+          </div>
+          <div className="flex space-x-4">
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">City</label>
+              <input
+                {...register("city", {
+                  required: "This field is required.",
+                })}
+                type="text"
+                name="city"
+                placeholder="City"
+                className="input input-bordered w-full"
+                value={formData.city}
+                onChange={handleChange}
+              />
+              {errors.city && (
+                <span className="text-error ms-4 mt-4">
+                  {errors.city.message}
+                </span>
+              )}
             </div>
-            <div className="flex space-x-4">
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">City</label>
-                    <input type="text" placeholder="City" className="input input-bordered w-full" />
-                </div>
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">State</label>
-                    <select className="select select-bordered w-full">
-                        <option disabled selected>State</option>
-                        <option>Johor</option>
-                        <option>Selangor</option>
-                    </select>
-                </div>
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">State</label>
+              <select className="select select-bordered w-full">
+                <ListofStates />
+              </select>
             </div>
-            <div className="w-1/2 pe-2 space-y-2">
-                <label className="text-neutral-700">Poscode</label>
-                <input type="text" placeholder="Poscode" className="input input-bordered w-full" />
+          </div>
+          <div className="w-1/2 pe-2 space-y-2">
+            <label className="text-neutral-700">Poscode</label>
+            <input
+              {...register("posCode", {
+                required: "This field is required.",
+              })}
+              type="text"
+              name="posCode"
+              placeholder="Poscode"
+              className="input input-bordered w-full"
+              value={formData.posCode}
+              onChange={handleChange}
+            />
+            {errors.posCode && (
+              <span className="text-error ms-4 mt-4">
+                {errors.posCode.message}
+              </span>
+            )}
+          </div>
+          <div className="divider py-8"></div>
+          {/* <div>
+            <h3 className="text-lg font-medium">
+              To save this settings, please enter your password
+            </h3>
+          </div>
+          <div className="flex space-x-4">
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Username</label>
+              <input
+                type="text"
+                placeholder="User"
+                className="input input-bordered !border-neutral-200 w-full"
+                disabled
+              />
             </div>
-            <div className="divider py-8"></div> 
-            <div>
-                <h3 className="text-lg font-medium">To save this settings, please enter your password</h3>
+            <div className="w-1/2 space-y-2">
+              <label className="text-neutral-700">Password</label>
+              <input
+                type="Password"
+                placeholder="password"
+                className="input input-bordered w-full"
+              />
             </div>
-            <div className="flex space-x-4">
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Username</label>
-                    <input type="text" placeholder="User" className="input input-bordered !border-neutral-200 w-full" disabled />
-                </div>
-                <div className="w-1/2 space-y-2">
-                    <label className="text-neutral-700">Password</label>
-                    <input type="Password" placeholder="password" className="input input-bordered w-full" />
-                </div>
-            </div>
-            <div className="py-8">
-                <button className="flex mx-auto btn btn-neutral px-14"><IoIosSave /> Save Changes</button>
-            </div>
-            
-        </div>
+          </div> */}
+          <div className="py-8">
+            <button
+              type="submit"
+              className="flex mx-auto btn btn-neutral px-14"
+            >
+              <IoIosSave /> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

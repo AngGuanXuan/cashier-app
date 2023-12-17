@@ -26,9 +26,16 @@ model Company {
   phone_no  String
   address_1 String
   address_2 String
-  City      String
-  State     String
-  PosCode   String
+  city      String
+  posCode   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  state     State?   @relation(fields: [stateId], references: [id])
+  stateId   Int?
+}
+
+model State {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Company Company[]
 }
