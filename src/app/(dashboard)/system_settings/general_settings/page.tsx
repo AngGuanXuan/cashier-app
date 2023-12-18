@@ -1,8 +1,7 @@
-import FormChangePassword from "@/components/forms/FormChangePassword";
-import FormSettings from "@/components/forms/FormSettings";
+import GetCompanyData from "@/components/getdata/GetCompanyData";
 import Header from "@/components/layouts/Header";
 
-const change_password = () => {
+const GeneralSettings = () => {
   return (
     <>
       <Header />
@@ -10,10 +9,10 @@ const change_password = () => {
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl font-semibold">General Settings</h1>
         </div>
-        <FormSettings />
+        <GetCompanyData />
       </div>
     </>
   );
 };
 
-export default change_password;
+export default GeneralSettings;
