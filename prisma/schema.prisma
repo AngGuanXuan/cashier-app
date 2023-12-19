@@ -39,3 +39,12 @@ model State {
   name    String
   Company Company[]
 }
+
+model Rate {
+  id          Int      @id @default(autoincrement())
+  name        String
+  rateperhour String
+  selected    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

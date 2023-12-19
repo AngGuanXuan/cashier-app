@@ -43,6 +43,7 @@ const FormSettings: FC<FormSettingsProps> = ({ initialValue }) => {
     });
   };
 
+  // handle select change
   const handleselectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setFormData({ ...formData, stateId: parseInt(value) });
@@ -50,6 +51,7 @@ const FormSettings: FC<FormSettingsProps> = ({ initialValue }) => {
     formData.stateId = parseInt(value);
   };
 
+  // get states
   const { data: dataStates } = useQuery<State[]>({
     queryKey: ["states"],
     queryFn: async () => {
@@ -62,7 +64,7 @@ const FormSettings: FC<FormSettingsProps> = ({ initialValue }) => {
   const onSubmit: SubmitHandler<CompanyDetailsValues> = async (
     formData: CompanyDetailsValues
   ) => {
-    console.log(formData);
+    // console.log(formData);
     try {
       const response = await axios.put("/api/company", formData);
 

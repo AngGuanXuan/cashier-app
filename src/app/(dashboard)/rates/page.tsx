@@ -1,9 +1,7 @@
 import React from "react";
 import Header from "@/components/layouts/Header";
-import Link from "next/link";
-import { IoMdAdd } from "react-icons/io";
+import AddHourlyRateBtn from "@/components/buttons/rate/AddRateBtn";
 import ListofRates from "@/components/lists/ListofRates";
-import AddHourlyRateBtn from "@/components/buttons/AddHourlyRateBtn";
 
 const HourlyRate = () => {
   return (

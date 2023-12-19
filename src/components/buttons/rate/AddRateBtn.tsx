@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import Modal from "../Modal";
-import FormAddHourlyRate from "../forms/FormHourlyRate";
+import Modal from "../../Modal";
+import FormAddHourlyRate from "../../forms/rate/FormAddRate";
 
 const AddHourlyRateBtn = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);

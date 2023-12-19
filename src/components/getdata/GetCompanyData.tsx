@@ -15,7 +15,11 @@ const GetCompanyData = () => {
   });
 
   if (isLoading) {
-    return <span className="loading loading-spinner loading-lg"></span>;
+    return (
+      <div className="flex">
+        <span className="loading loading-spinner loading-lg mx-auto"></span>
+      </div>
+    );
   }
 
   return <FormSettings initialValue={companydata} />;
