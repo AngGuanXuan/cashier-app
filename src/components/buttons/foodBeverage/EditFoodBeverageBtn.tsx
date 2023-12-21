@@ -1,21 +1,21 @@
-import { FC, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import Modal from "../../Modal";
+import Modal from "@/components/Modal";
+import FormEditFoodBeverage from "@/components/forms/foodBeverage/FormEditFoodBeverage";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import FormEditRate from "../../forms/rate/FormEditRate";
+import React, { FC, useState } from "react";
+import { FaEdit } from "react-icons/fa";
 
-interface EditRateProps {
-  rateId: number;
+interface EditFnBProps {
+  fnbId: number;
 }
 
-const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
+const EditFoodBeverageBtn: FC<EditFnBProps> = ({ fnbId }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["rate", rateId],
+    queryKey: ["foodbeverage", fnbId],
     queryFn: async () => {
-      const response = await axios.get(`/api/rate/${rateId}`);
+      const response = await axios.get(`/api/foodbeverage/${fnbId}`);
       return response.data;
     },
   });
@@ -35,8 +35,8 @@ const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
         Edit
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <FormEditRate
-          rateId={rateId}
+        <FormEditFoodBeverage
+          fnbId={fnbId}
           initialValue={data}
           setModalOpen={setModalOpen}
         />
@@ -45,4 +45,4 @@ const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
   );
 };
 
-export default EditRateBtn;
+export default EditFoodBeverageBtn;

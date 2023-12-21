@@ -50,18 +50,7 @@ const FormSignin = () => {
   };
 
   return (
-    <div className="w-full my-auto px-12 space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Sign In Now</h1>
-      </div>
-      <div className="flex flex-col justify-center space-y-2">
-        <label className="text-neutral-700">Sign in with</label>
-        <button className="btn btn-outline" disabled>
-          Sign in with google <FaGoogle />
-        </button>
-        <div className="badge badge-accent mx-auto">Coming Soon</div>
-      </div>
-      <div className="divider divider-neutral">OR continue with</div>
+    <div className="w-full my-auto px-12 space-y-8 card-body">
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
@@ -97,9 +86,11 @@ const FormSignin = () => {
               </span>
             )}
           </div>
-          <button type="submit" className="btn btn-neutral px-14">
-            <BiLogIn /> Sign In
-          </button>
+          <div>
+            <button type="submit" className="btn btn-neutral px-14 mt-4 w-full">
+              <BiLogIn /> Sign In
+            </button>
+          </div>
         </form>
       </div>
     </div>

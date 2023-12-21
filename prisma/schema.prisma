@@ -22,16 +22,16 @@ model User {
 model Company {
   id        Int      @id @default(autoincrement())
   name      String
-  email     String
+  email     String   @unique
   phone_no  String
   address_1 String
   address_2 String
   city      String
+  state     State?   @relation(fields: [stateId], references: [id])
+  stateId   Int?
   posCode   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  state     State?   @relation(fields: [stateId], references: [id])
-  stateId   Int?
 }
 
 model State {
@@ -42,9 +42,32 @@ model State {
 
 model Rate {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        String   @unique
   rateperhour String
   selected    Boolean
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Table {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FoodBeverage {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  price      String
+  Category   FnBCategory? @relation(fields: [CategoryId], references: [id])
+  CategoryId Int?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model FnBCategory {
+  id           Int            @id @default(autoincrement())
+  name         String
+  FoodBeverage FoodBeverage[]
 }

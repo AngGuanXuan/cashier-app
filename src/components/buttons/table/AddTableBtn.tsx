@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import Modal from "../Modal";
-import FormAddFoodBeverage from "../forms/FormAddFoodBeverage";
+import Modal from "../../Modal";
+import FormAddTable from "../../forms/table/FormAddTable";
 
-const AddFoodBeverageBtn = () => {
+const AddTableBtn = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
@@ -13,13 +13,13 @@ const AddFoodBeverageBtn = () => {
         onClick={() => setModalOpen(true)}
         className="btn btn-neutral font-bold"
       >
-        <IoMdAdd /> Add Food or Beverage
+        <IoMdAdd /> Add Table
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <FormAddFoodBeverage setModalOpen={setModalOpen} />
+        <FormAddTable setModalOpen={setModalOpen} />
       </Modal>
     </>
   );
 };
 
-export default AddFoodBeverageBtn;
+export default AddTableBtn;

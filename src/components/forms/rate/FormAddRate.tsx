@@ -1,6 +1,6 @@
 "use client";
 import { RateValues } from "@/types/rate";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
@@ -65,7 +65,9 @@ const FormHourlyRate: FC<ModalProps> = ({ setModalOpen }) => {
         location.reload();
       }
     } catch (error) {
-      alert(error);
+      if (error instanceof AxiosError) {
+        alert(error.response?.data.message);
+      }
       console.error(error);
     }
   };

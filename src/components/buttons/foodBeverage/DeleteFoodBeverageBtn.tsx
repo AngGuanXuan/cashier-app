@@ -5,17 +5,17 @@ import React, { FC, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
-interface DeleteRateProps {
-  rateId: number;
-  rateName: string;
+interface DeleteFnBProps {
+  fnbId: number;
+  fnbName: string;
 }
 
-const DeleteRateBtn: FC<DeleteRateProps> = ({ rateId, rateName }) => {
+const DeleteFoodBeverageBtn: FC<DeleteFnBProps> = ({ fnbId, fnbName }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const { mutate: deleteRate } = useMutation({
+  const { mutate: deleteFnB } = useMutation({
     mutationFn: async () => {
-      return axios.delete(`/api/rate/${rateId}`);
+      return axios.delete(`/api/foodbeverage/${fnbId}`);
     },
     onError: (error) => {
       console.error(error);
@@ -28,7 +28,6 @@ const DeleteRateBtn: FC<DeleteRateProps> = ({ rateId, rateName }) => {
 
   return (
     <>
-      {" "}
       <button onClick={() => setModalOpen(true)} className="btn btn-secondary">
         <FaTrashAlt />
         Delete
@@ -36,7 +35,7 @@ const DeleteRateBtn: FC<DeleteRateProps> = ({ rateId, rateName }) => {
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
         <div className="space-y-10">
           <h1 className="text-xl text-center font-semibold">
-            Are you sure you want to delete {rateName}?
+            Are you sure you want to delete {fnbName}?
           </h1>
           <div className="flex justify-center space-x-4">
             <button
@@ -46,8 +45,8 @@ const DeleteRateBtn: FC<DeleteRateProps> = ({ rateId, rateName }) => {
               <IoMdClose />
               Cancel
             </button>
-            <button onClick={() => deleteRate()} className="btn btn-error">
-              <FaTrashAlt /> Delete {rateName}
+            <button onClick={() => deleteFnB()} className="btn btn-error">
+              <FaTrashAlt /> Delete {fnbName}
             </button>
           </div>
         </div>
@@ -56,4 +55,4 @@ const DeleteRateBtn: FC<DeleteRateProps> = ({ rateId, rateName }) => {
   );
 };
 
-export default DeleteRateBtn;
+export default DeleteFoodBeverageBtn;

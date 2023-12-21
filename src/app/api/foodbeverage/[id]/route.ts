@@ -10,36 +10,36 @@ interface ContextProps {
 export async function GET(req: Request, context: ContextProps) {
     try{
         const {params} = context;
-        const rate = await prisma.rate.findFirst({
+        const foodBeverage = await prisma.foodBeverage.findFirst({
             where: {
                 id: parseInt(params.id)
             }
         });
 
-        return NextResponse.json(rate, {status: 200});
+        return NextResponse.json(foodBeverage, {status: 200});
     }
     catch(error){
-        return NextResponse.json({message: "could not fetch rate data"}, {status: 500});
+        return NextResponse.json({message: "could not fetch food or beverage data"}, {status: 500});
     }
 }
 
 export async function PUT(req: Request, context: ContextProps) {
     try{
         const {params} = context;
-        const { name, rateperhour, selected } = await req.json();
+        const { name, price, CategoryId } = await req.json();
 
-        const rate = await prisma.rate.update({
+        const foodBeverage = await prisma.foodBeverage.update({
             where: {
                 id: parseInt(params.id)
             },
             data: {
                 name: name, 
-                rateperhour: rateperhour, 
-                selected: selected
+                price: price,
+                CategoryId: parseInt(CategoryId)
             },
         });
 
-        return NextResponse.json({rate: rate}, { status: 200})
+        return NextResponse.json({foodBeverage: foodBeverage}, { status: 200})
 
     }
     catch(error) {
@@ -51,7 +51,7 @@ export async function PUT(req: Request, context: ContextProps) {
 export async function DELETE(req: Request, context: ContextProps) {
     try{
         const {params} = context;
-        await prisma.rate.delete({
+        await prisma.foodBeverage.delete({
             where: {
                 id: parseInt(params.id)
             }
@@ -60,6 +60,6 @@ export async function DELETE(req: Request, context: ContextProps) {
         return new Response(null, {status: 204})
     }
     catch(error){
-        return NextResponse.json({message: "could not delete rate data"}, {status: 500});
+        return NextResponse.json({message: "could not delete food or beverage data"}, {status: 500});
     }
 }

@@ -17,7 +17,7 @@ const GetCompanyData = () => {
   if (isLoading) {
     return (
       <div className="flex">
-        <span className="loading loading-spinner loading-lg mx-auto"></span>
+        <span className="loading loading-ring loading-lg mx-auto"></span>
       </div>
     );
   }

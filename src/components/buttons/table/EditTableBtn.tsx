@@ -1,21 +1,21 @@
-import { FC, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import Modal from "../../Modal";
+import Modal from "@/components/Modal";
+import FormEditTable from "@/components/forms/table/FormEditTable";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import FormEditRate from "../../forms/rate/FormEditRate";
+import React, { FC, useState } from "react";
+import { FaEdit } from "react-icons/fa";
 
-interface EditRateProps {
-  rateId: number;
+interface EditTableProps {
+  tableId: number;
 }
 
-const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
+const EditTableBtn: FC<EditTableProps> = ({ tableId }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["rate", rateId],
+    queryKey: ["table", tableId],
     queryFn: async () => {
-      const response = await axios.get(`/api/rate/${rateId}`);
+      const response = await axios.get(`/api/table/${tableId}`);
       return response.data;
     },
   });
@@ -35,8 +35,8 @@ const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
         Edit
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <FormEditRate
-          rateId={rateId}
+        <FormEditTable
+          tableId={tableId}
           initialValue={data}
           setModalOpen={setModalOpen}
         />
@@ -45,4 +45,4 @@ const EditRateBtn: FC<EditRateProps> = ({ rateId }) => {
   );
 };
 
-export default EditRateBtn;
+export default EditTableBtn;

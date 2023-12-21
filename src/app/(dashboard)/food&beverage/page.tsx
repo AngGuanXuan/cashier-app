@@ -3,7 +3,7 @@ import Header from "@/components/layouts/Header";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
 import ListofFnB from "@/components/lists/ListofFnB";
-import AddFoodBeverageBtn from "@/components/buttons/AddFoodBeverageBtn";
+import AddFoodBeverageBtn from "@/components/buttons/foodBeverage/AddFoodBeverageBtn";
 
 const page = () => {
   return (

@@ -18,7 +18,7 @@ const ListofRates = () => {
   if (isLoading) {
     return (
       <div className="flex">
-        <span className="loading loading-spinner loading-lg mx-auto"></span>
+        <span className="loading loading-ring loading-lg mx-auto"></span>
       </div>
     );
   }
@@ -49,7 +49,7 @@ const ListofRates = () => {
               <td>{format(rates.updatedAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td className="space-x-2">
                 <EditRateBtn rateId={rates.id} />
-                <DeleteRateBtn rateId={rates.id} />
+                <DeleteRateBtn rateId={rates.id} rateName={rates.name} />
               </td>
             </tr>
           ))}

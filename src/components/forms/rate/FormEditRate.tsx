@@ -61,7 +61,7 @@ const FormEditRate: FC<EditRateDataProps> = ({
     try {
       const response = await axios.put(`/api/rate/${rateId}`, formData);
       if (response.status === 200) {
-        alert("Rate per Hour Edited");
+        alert("Changes Updated");
         setFormData({
           name: "",
           rateperhour: "",
