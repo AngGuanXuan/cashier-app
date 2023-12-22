@@ -80,7 +80,7 @@ const Header = async () => {
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal text-lg px-1 dark:text-neutral-400">
+          <ul className="menu menu-horizontal text-lg px-1">
             <li>
               <Link href="/admin">Dashboard</Link>
             </li>
