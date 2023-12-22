@@ -1,5 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./db";
 import { compare } from "bcrypt";
@@ -15,29 +16,35 @@ export const authOptions: NextAuthOptions = {
         signIn: "/"
     },
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+          }),
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-            username: { label: "Username", type: "text", placeholder: "username" },
+            email: { label: "Email", type: "email", placeholder: "Email" },
             password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                if(!credentials?.username || !credentials?.password) {
+                if(!credentials?.email || !credentials?.password) {
                     throw new Error('No User Found');
                 }
 
                 const existingUser = await prisma.user.findUnique({
-                    where: { username : credentials?.username}
+                    where: { email : credentials?.email}
                 });
 
                 if(!existingUser) {
                     throw new Error('No User Found');
                 }
 
-                const passwordMatch = await compare(credentials.password, existingUser.password);
+                if(existingUser.password){
+                    const passwordMatch = await compare(credentials.password, existingUser.password);
 
-                if(!passwordMatch) {
-                    throw new Error('Wrong Password');
+                    if(!passwordMatch) {
+                        throw new Error('Wrong Password');
+                    }
                 }
 
                 return {

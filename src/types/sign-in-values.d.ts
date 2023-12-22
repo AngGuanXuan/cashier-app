@@ -1,4 +1,4 @@
 export type SignInValues = {
-  username: string;
+  email: string;
   password: string;
 }

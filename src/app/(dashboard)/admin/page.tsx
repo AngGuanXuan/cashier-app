@@ -17,7 +17,11 @@ const page = async () => {
           <h2 className="text-lg font-medium">
             Welcome{" "}
             <span className="font-semibold">
-              {session?.user.username ? session?.user.username : "User"}
+              {session?.user.username
+                ? session?.user.username
+                : session?.user.name
+                ? session?.user.name
+                : "User"}
             </span>
             .
           </h2>

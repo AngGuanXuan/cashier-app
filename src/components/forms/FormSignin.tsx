@@ -11,7 +11,7 @@ const FormSignin = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState<SignInValues>({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -34,7 +34,7 @@ const FormSignin = () => {
     formData: SignInValues
   ) => {
     const signInData = await signIn("credentials", {
-      username: formData.username,
+      email: formData.email,
       password: formData.password,
       redirect: false,
     });
@@ -50,21 +50,21 @@ const FormSignin = () => {
   };
 
   return (
-    <div className="w-full my-auto px-12 space-y-8 card-body">
+    <div className="w-full my-auto space-y-8">
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
-            <label className="text-neutral-700">Username</label>
+            <label className="text-neutral-700">Email</label>
             <input
-              {...register("username", { required: true })}
-              type="text"
-              name="username"
-              placeholder="Username"
+              {...register("email", { required: true })}
+              type="email"
+              name="email"
+              placeholder="Email"
               className="input input-bordered w-full"
-              value={formData.username}
+              value={formData.email}
               onChange={handleChange}
             />
-            {errors.username && errors.username.type === "required" && (
+            {errors.email && errors.email.type === "required" && (
               <span className="text-error ms-4 mt-4">
                 This field is required
               </span>
