@@ -45,7 +45,6 @@ export async function PUT(req: Request, context: ContextProps) {
     catch(error) {
         return NextResponse.json({ message: 'Something went wrong!'}, { status: 500 })
     }
-    
 }
 
 export async function DELETE(req: Request, context: ContextProps) {

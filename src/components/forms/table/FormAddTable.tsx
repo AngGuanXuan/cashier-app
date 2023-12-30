@@ -1,4 +1,4 @@
-import { TableValues } from "@/types/table";
+import { TableValues } from "@/types/table/table";
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

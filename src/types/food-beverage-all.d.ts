@@ -6,6 +6,6 @@ export type foodBeverageAllValues = {
         id:number;
         name: string;
     };
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }

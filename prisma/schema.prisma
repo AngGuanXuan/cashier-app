@@ -99,8 +99,35 @@ model Rate {
 }
 
 model Table {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  Status     Status?      @relation(fields: [statusId], references: [id])
+  statusId   Int?
+  TableSales TableSales[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Status {
+  id    Int     @id @default(autoincrement())
+  name  String
+  Table Table[]
+}
+
+model TableSales {
+  id             Int           @id @default(autoincrement())
+  Table          Table?        @relation(fields: [tableId], references: [id])
+  tableId        Int?
+  note           String
+  FoodBeverage   FoodBeverage? @relation(fields: [foodBeverageId], references: [id])
+  foodBeverageId Int?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model OperateTime {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  mode      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -111,6 +138,7 @@ model FoodBeverage {
   price      String
   Category   FnBCategory? @relation(fields: [CategoryId], references: [id])
   CategoryId Int?
+  TableSales TableSales[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }

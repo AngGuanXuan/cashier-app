@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { FaPowerOff } from "react-icons/fa";
 import SignOutBtn from "../userAccounts/SignOutBtn";
+import StartOperateBtn from "../buttons/open_mode/StartOperateBtn";
 
 const Header = async () => {
   return (
@@ -70,13 +70,7 @@ const Header = async () => {
             >
               LCCL Enterprise
             </Link>
-            <Link
-              href="/open_mode"
-              className="btn btn-error text-white font-bold hover:shadow-md"
-            >
-              <FaPowerOff />
-              Operate Now
-            </Link>
+            <StartOperateBtn />
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">

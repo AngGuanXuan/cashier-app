@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try{
-        const rate = await prisma.rate.findMany();
+        const rate = await prisma.rate.findMany({
+            orderBy: 
+            {
+                selected: 'desc',
+            }
+        });
 
         return NextResponse.json(rate, {status: 200});
     }

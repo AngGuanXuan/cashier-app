@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try{
-        const table_list = await prisma.table.findMany();
+        const table_list = await prisma.table.findMany({
+            include: {
+                Status: true,
+            },
+        });
 
         return NextResponse.json(table_list, {status: 200});
     }
@@ -27,7 +31,8 @@ export async function POST(req: Request) {
 
         const table_list = await prisma.table.create({
             data: {
-                name 
+                name,
+                statusId: 1
             }
         });
 

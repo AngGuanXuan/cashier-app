@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Table } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import EditTableBtn from "../buttons/table/EditTableBtn";
 import DeleteTableBtn from "../buttons/table/DeleteTableBtn";
+import { TableListValues } from "@/types/table/table-list";
 
 const ListofTables = () => {
-  const { data: tabledata, isLoading } = useQuery<Table[]>({
+  const { data: tabledata, isLoading } = useQuery<TableListValues[]>({
     queryKey: ["table"],
     queryFn: async () => {
       const response = await axios.get("/api/table");
@@ -32,6 +32,7 @@ const ListofTables = () => {
           <tr className="text-md">
             <th></th>
             <th>Name</th>
+            <th>Status</th>
             <th>CreatedAt</th>
             <th>UpdatedAt</th>
             <th>Action</th>
@@ -42,6 +43,7 @@ const ListofTables = () => {
             <tr key={table.id}>
               <th>{table.id}</th>
               <th>{table.name}</th>
+              <td>{table.Status.name}</td>
               <td>{format(table.createdAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td>{format(table.updatedAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td className="space-x-2">
