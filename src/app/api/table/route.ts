@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         const table_list = await prisma.table.create({
             data: {
                 name,
-                statusId: 1
+                statusId: 1,
             }
         });
 

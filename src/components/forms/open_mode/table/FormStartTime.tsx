@@ -1,20 +1,24 @@
+import { foodBeverageDataValues } from "@/types/foodBeverage/food-beverage-data";
 import { TableSalesValues } from "@/types/table/table-sales";
-import { TableCardValues } from "@/types/table/table-card";
-import { useQuery } from "@tanstack/react-query";
+import { OperateTime } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MdOutlineTimer, MdOutlineNotStarted } from "react-icons/md";
+import { MdOutlineNotStarted } from "react-icons/md";
 import TextareaAutosize from "react-textarea-autosize";
 
-interface TAbleDataProps {
+interface TableDataProps {
   table_Id: number;
   tableName: string;
-  //   setModalOpen: (open: boolean) => boolean | void;
+  timeData: OperateTime;
 }
 
-const FormStartTime: FC<TAbleDataProps> = ({ table_Id, tableName }) => {
-  // set formdata
+const FormStartTime: FC<TableDataProps> = ({
+  table_Id,
+  tableName,
+  timeData,
+}) => {
+  // set note
   const [note, setNote] = useState<string>("");
 
   // handlesubmit
@@ -31,8 +35,9 @@ const FormStartTime: FC<TAbleDataProps> = ({ table_Id, tableName }) => {
   const onSubmit: SubmitHandler<TableSalesValues> = async (
     formData: TableSalesValues
   ) => {
-    formData = { tableId: table_Id, note };
+    formData = { tableId: table_Id, note, operateTimeId: timeData.id };
     // console.log(formData);
+
     try {
       const response = await axios.post("/api/open_mode/tableSales", formData);
       if (response.status === 200) {
@@ -65,11 +70,7 @@ const FormStartTime: FC<TAbleDataProps> = ({ table_Id, tableName }) => {
             onChange={handleChange}
           />
         </div>
-        <div className="text-center">
-          <span className="font-mono text-4xl space-x-2">
-            <span>00</span>h<span>00</span>m<span>00</span>s
-          </span>
-        </div>
+
         <div className="flex flex-row space-x-2">
           <div className="w-full">
             <button type="submit" className="btn btn-error w-full">

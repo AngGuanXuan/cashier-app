@@ -3,7 +3,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { format } from "date-fns";
-import { foodBeverageAllValues } from "@/types/food-beverage-all";
+import { foodBeverageAllValues } from "@/types/foodBeverage/food-beverage-all";
 import DeleteFoodBeverageBtn from "../buttons/foodBeverage/DeleteFoodBeverageBtn";
 import EditFoodBeverageBtn from "../buttons/foodBeverage/EditFoodBeverageBtn";
 

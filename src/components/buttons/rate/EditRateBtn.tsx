@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import Modal from "../../Modal";
+import Modal from "../../modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FormEditRate from "../../forms/rate/FormEditRate";

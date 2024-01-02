@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import Modal from "../../Modal";
+import Modal from "../../modal/Modal";
 import FormAddTable from "../../forms/table/FormAddTable";
 
 const AddTableBtn = () => {

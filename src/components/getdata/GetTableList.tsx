@@ -2,11 +2,18 @@ import { TableCardValues } from "@/types/table/table-card";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { MdTableRestaurant } from "react-icons/md";
-import Modal from "../Modal";
-import { useState } from "react";
+import Modal from "../modal/Modal";
+import { FC, useState } from "react";
 import FormStartTime from "../forms/open_mode/table/FormStartTime";
+import { OperateTime } from "@prisma/client";
+import GetInUseData from "./getInUseData";
+import OpenModeModal from "../modal/OpenModeModal";
 
-const GetTableList = () => {
+interface timeDataProps {
+  timeData: OperateTime;
+}
+
+const GetTableList: FC<timeDataProps> = ({ timeData }) => {
   // get table list
   const { data: tabledata, isLoading } = useQuery<TableCardValues[]>({
     queryKey: ["table"],
@@ -30,8 +37,9 @@ const GetTableList = () => {
     setTableId(id);
     settableStatus(statusId);
     setTableName(name);
-    setModalOpen(true);
     // console.log(tableId, tableName, tableStatusId);
+
+    setModalOpen(true);
   };
 
   if (isLoading) {
@@ -49,7 +57,7 @@ const GetTableList = () => {
           key={table.id}
           className={`btn w-full h-fit rounded-none px-0 ${
             table.Status.id == 1
-              ? ""
+              ? "bg-neutral-200"
               : table.Status.id == 2
               ? "btn-accent"
               : "bg-yellow-300 border border-yellow-300 hover:bg-yellow-300/80 hover:border-yellow-300/80"
@@ -76,13 +84,33 @@ const GetTableList = () => {
         </div>
       ))}
       <div className="text-black">
-        <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-          {tableStatusId == 1 ? (
-            <FormStartTime table_Id={tableId} tableName={tableName} />
-          ) : (
-            "hello"
-          )}
-        </Modal>
+        {tableStatusId == 1 ? (
+          <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+            <FormStartTime
+              table_Id={tableId}
+              tableName={tableName}
+              timeData={timeData}
+            />
+          </Modal>
+        ) : tableStatusId == 2 ? (
+          <OpenModeModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+            <GetInUseData
+              table_Id={tableId}
+              tableName={tableName}
+              timeData={timeData}
+              tableStatusId={tableStatusId}
+            />
+          </OpenModeModal>
+        ) : (
+          <OpenModeModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+            <GetInUseData
+              table_Id={tableId}
+              tableName={tableName}
+              timeData={timeData}
+              tableStatusId={tableStatusId}
+            />
+          </OpenModeModal>
+        )}
       </div>
     </div>
   );

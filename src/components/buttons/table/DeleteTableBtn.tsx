@@ -1,4 +1,4 @@
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal/Modal";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { FC, useState } from "react";

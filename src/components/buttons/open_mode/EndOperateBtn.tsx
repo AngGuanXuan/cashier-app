@@ -1,4 +1,4 @@
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal/Modal";
 import { OperateTime } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { FC, useState } from "react";
@@ -35,7 +35,7 @@ const EndOperateBtn: FC<timeDataProps> = ({ timeData }) => {
         <FaStopCircle />
         End for Today
       </button>
-      <div className="text-black">
+      <div className="text-black absolute">
         <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
           <h3 className="font-bold text-lg">Operate Mode</h3>
           <p className="py-4">Are you sure you want to close cashier now?</p>

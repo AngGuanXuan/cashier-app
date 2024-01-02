@@ -2,7 +2,7 @@ import React from "react";
 import Header from "@/components/layouts/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { IoIosSave, IoIosPrint } from "react-icons/io";
+import { IoIosPrint } from "react-icons/io";
 import FormSelectRate from "@/components/forms/FormSelectRate";
 import User from "@/components/User";
 

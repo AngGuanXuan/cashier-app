@@ -26,14 +26,14 @@ export async function POST(req: Request) {
 
         const { name, price, CategoryId } = await req.json();
 
-        // check if rate exist
+        // check if fnb exist
         const nameExist = await prisma.foodBeverage.findUnique({
             where: { name: name }
-        })
+        });
 
         if(nameExist) {
             return NextResponse.json({rate: null, message: "food or beverage already exist"}, {status: 409});
-        }
+        };
 
         const foodbeverage = await prisma.foodBeverage.create({
             data: {

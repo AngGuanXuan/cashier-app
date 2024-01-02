@@ -1,4 +1,4 @@
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal/Modal";
 import FormEditTable from "@/components/forms/table/FormEditTable";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

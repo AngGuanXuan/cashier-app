@@ -16,12 +16,28 @@ export async function GET() {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST() {
     try{
+
+        // // get rate
+        const Operaterate = await prisma.rate.findFirst({
+            where: { 
+                selected: true,
+            },
+            select: {
+                rateperhour: true
+            }
+        });
+
+        // if price not exist
+        if(!Operaterate) {
+            return NextResponse.json({operateTime: null, message: "rate not exist"}, {status: 409});
+        };
 
         const startTime = await prisma.operateTime.create({
             data: {
                 mode: "open",
+                rate: Operaterate.rateperhour
             },
         });
 

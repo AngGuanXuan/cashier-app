@@ -34,8 +34,7 @@ const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
     minutes = minutes % 60;
     hours = hours % 24;
 
-    const timeSpend =
-      hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
+    const timeSpend = hours + "h " + minutes + "m " + seconds + "s";
 
     return timeSpend;
   }
@@ -50,9 +49,18 @@ const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
   }, []);
 
   return (
-    <div>
-      <div>{format(clockText, "HH:mm:ss")}</div>
-      <div>{openTime}</div>
+    <div className="flex flex-col space-y-4 items-center">
+      <div className="flex flex-col space-y-2">
+        <div className="text-neutral-300 text-lg">
+          {format(clockText, "do LLL yyyy hh:mm:ss a")}
+        </div>
+        <span className="font-mono text-5xl space-x-2">{openTime}</span>
+        {/* <div>{openTime}</div> */}
+      </div>
+      <div>
+        <span className="text-neutral-300">Hourly Rate: </span> RM
+        {timeData.rate}
+      </div>
     </div>
   );
 };

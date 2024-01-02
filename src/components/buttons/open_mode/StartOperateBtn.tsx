@@ -1,5 +1,5 @@
 "use client";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal/Modal";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { FaPowerOff } from "react-icons/fa";

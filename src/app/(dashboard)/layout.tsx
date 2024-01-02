@@ -1,3 +1,4 @@
+import GetOperateMode from "@/components/getdata/GetOperateMode";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -11,7 +12,11 @@ const DashboardLayout: FC<DashboardLayoutProps> = async ({ children }) => {
   const session = await getServerSession(authOptions);
 
   if (session?.user) {
-    return <div>{children}</div>;
+    return (
+      <GetOperateMode>
+        <div>{children}</div>
+      </GetOperateMode>
+    );
   } else {
     redirect("/");
   }

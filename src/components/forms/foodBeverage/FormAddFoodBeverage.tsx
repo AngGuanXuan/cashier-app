@@ -1,4 +1,4 @@
-import { foodBeverageValues } from "@/types/food-beverage";
+import { foodBeverageValues } from "@/types/foodBeverage/food-beverage";
 import { FnBCategory } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";

@@ -1,7 +1,7 @@
 "use client";
 import { ChangeEvent, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import Modal from "../../Modal";
+import Modal from "../../modal/Modal";
 import FormAddFoodBeverage from "../../forms/foodBeverage/FormAddFoodBeverage";
 
 const AddFoodBeverageBtn = () => {

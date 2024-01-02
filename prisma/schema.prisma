@@ -93,7 +93,7 @@ model Rate {
   id          Int      @id @default(autoincrement())
   name        String   @unique
   rateperhour String
-  selected    Boolean
+  selected    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -114,31 +114,13 @@ model Status {
   Table Table[]
 }
 
-model TableSales {
-  id             Int           @id @default(autoincrement())
-  Table          Table?        @relation(fields: [tableId], references: [id])
-  tableId        Int?
-  note           String
-  FoodBeverage   FoodBeverage? @relation(fields: [foodBeverageId], references: [id])
-  foodBeverageId Int?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-}
-
-model OperateTime {
-  id        Int      @id @default(autoincrement())
-  mode      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model FoodBeverage {
-  id         Int          @id @default(autoincrement())
+  id         Int          @id @unique @default(autoincrement())
   name       String       @unique
   price      String
   Category   FnBCategory? @relation(fields: [CategoryId], references: [id])
   CategoryId Int?
-  TableSales TableSales[]
+  FnBSales   FnBSales[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
@@ -147,4 +129,42 @@ model FnBCategory {
   id           Int            @id @default(autoincrement())
   name         String
   FoodBeverage FoodBeverage[]
+}
+
+model OperateTime {
+  id         Int          @id @default(autoincrement())
+  mode       String
+  rate       String
+  TableSales TableSales[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model TableSales {
+  id              Int          @id @default(autoincrement())
+  Table           Table?       @relation(fields: [tableId], references: [id])
+  tableId         Int?
+  note            String
+  FnBSales        FnBSales[]
+  OperateTime     OperateTime? @relation(fields: [operateTimeId], references: [id])
+  operateTimeId   Int?
+  hourSpend       String
+  tableRateSales  String
+  totalFnBSales   String
+  totalTableSales String
+  paid            Boolean      @default(false)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model FnBSales {
+  id             Int           @id @default(autoincrement())
+  TableSales     TableSales?   @relation(fields: [tableSalesId], references: [id])
+  tableSalesId   Int?
+  FoodBeverage   FoodBeverage? @relation(fields: [foodBeverageId], references: [id])
+  foodBeverageId Int?
+  amount         Int
+  totalFnBSales  String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
