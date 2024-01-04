@@ -8,7 +8,16 @@ export async function POST(req: Request) {
 
         const table_sales = await prisma.tableSales.create({
             data: {
-                tableId , note , operateTimeId , hourSpend:"0" , tableRateSales: "0.00" , totalFnBSales: "0.00" , totalTableSales: "0.00"
+                tableId , 
+                note , 
+                operateTimeId , 
+                hourSpend:"0" , 
+                tableRateSales: "0.00" , 
+                totalFnBSales: "0.00" , 
+                totalTableSales: "0.00" , 
+                discount: "0.00",
+                customerPay: "0.00",
+                balance: "0.00"
             }
         });
 

@@ -2,7 +2,8 @@ import { foodBeveragePayValues } from "@/types/foodBeverage/food-beverage-pay";
 import { TableSales } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { FC, useState } from "react";
+import { FC } from "react";
+import AddDiscount from "./AddDiscount";
 
 interface TableToPayDataProps {
   tableName: string;
@@ -40,7 +41,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
         <h2 className="text-xl font-semibold">{tableName}</h2>
       </div>
       <div className="space-y-4">
-        <div className="p-2">
+        <div className="py-2 px-10">
           <h2 className="font-semibold">Table Price</h2>
           <div className="overflow-x-auto">
             <table className="table">
@@ -55,10 +56,10 @@ const FormToPay: FC<TableToPayDataProps> = ({
               <tbody>
                 <tr>
                   <td>{initialValue.note}</td>
-                  <td>{initialValue.hourSpend}</td>
-                  <td>{timeRate}</td>
+                  <th>{initialValue.hourSpend} Hour&#40;s&#41;</th>
+                  <th>RM {timeRate}</th>
                   <th className="text-lg text-end">
-                    {initialValue.tableRateSales}
+                    RM {initialValue.tableRateSales}
                   </th>
                 </tr>
               </tbody>
@@ -66,7 +67,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
           </div>
         </div>
 
-        <div className="p-2">
+        <div className="py-2 px-10">
           <h2 className="font-semibold">Food &amp; Beverage</h2>
           <div className="overflow-x-auto">
             <table className="table">
@@ -82,9 +83,11 @@ const FormToPay: FC<TableToPayDataProps> = ({
                 {fnBSalesData?.map((fnbPay) => (
                   <tr key={fnbPay.id}>
                     <th>{fnbPay.FoodBeverage.name}</th>
-                    <td>{fnbPay.FoodBeverage.price}</td>
-                    <td>{fnbPay.amount}</td>
-                    <td className="text-lg text-end">{fnbPay.totalFnBSales}</td>
+                    <th>RM {fnbPay.FoodBeverage.price}</th>
+                    <th>{fnbPay.amount}</th>
+                    <td className="text-lg text-end">
+                      RM {fnbPay.totalFnBSales}
+                    </td>
                   </tr>
                 ))}
                 <tr className="border-t-2">
@@ -92,7 +95,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
                     Food &amp; Beverage Total &#40;RM&#41;
                   </th>
                   <th className="text-lg text-end">
-                    {initialValue.totalFnBSales}
+                    RM {initialValue.totalFnBSales}
                   </th>
                 </tr>
               </tbody>
@@ -103,18 +106,18 @@ const FormToPay: FC<TableToPayDataProps> = ({
         <div className="flex justify-between items-center">
           <h2 className="text-lg">Total &#40;RM&#41;</h2>
           <h2 className="text-2xl font-semibold">
-            {initialValue.totalTableSales}
+            RM {initialValue.totalTableSales}
           </h2>
         </div>
         <div className="flex justify-between items-center">
-          <h2 className="text-lg">Discount &#40;RM&#41;</h2>
-          <input
-            type="text"
-            placeholder="Discount"
-            className="input input-bordered rounded-sm"
+          <h2 className="text-lg">Discount Given &#40;RM&#41;</h2>
+          <AddDiscount
+            tableSalesId={initialValue.id}
+            tableDiscount={initialValue.discount}
           />
         </div>
       </div>
+      <div></div>
     </div>
   );
 };

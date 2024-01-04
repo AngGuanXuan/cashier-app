@@ -132,12 +132,15 @@ model FnBCategory {
 }
 
 model OperateTime {
-  id         Int          @id @default(autoincrement())
-  mode       String
-  rate       String
-  TableSales TableSales[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id              Int          @id @default(autoincrement())
+  mode            String
+  rate            String
+  TableSales      TableSales[]
+  totalTableSales String
+  totalFnBSales   String
+  totalDaySales   String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
 
 model TableSales {
@@ -152,6 +155,9 @@ model TableSales {
   tableRateSales  String
   totalFnBSales   String
   totalTableSales String
+  discount        String
+  customerPay     String
+  balance         String
   paid            Boolean      @default(false)
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
