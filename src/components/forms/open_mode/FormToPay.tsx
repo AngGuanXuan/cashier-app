@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FC } from "react";
 import AddDiscount from "./AddDiscount";
+import CustomerPay from "@/components/input/CustomerPay";
 
 interface TableToPayDataProps {
   tableName: string;
@@ -117,7 +118,12 @@ const FormToPay: FC<TableToPayDataProps> = ({
           />
         </div>
       </div>
-      <div></div>
+      <div className="divider"></div>
+      <CustomerPay
+        totalTableSales={initialValue.totalTableSales}
+        customerPay={initialValue.customerPay}
+        salesBalance={initialValue.balance}
+      />
     </div>
   );
 };

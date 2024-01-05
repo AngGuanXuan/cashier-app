@@ -12,7 +12,8 @@ export async function PUT(req: Request) {
                 id: tableSalesId,
             },
             select: {
-                totalTableSales: true
+                totalTableSales: true,
+                discount: true,
             }
         });
 
@@ -21,8 +22,10 @@ export async function PUT(req: Request) {
             return NextResponse.json({operateTime: null, message: "total table sales not exist"}, {status: 409});
         };
 
-        const totalFnBSalesPrice = parseFloat(getTotalTableSales.totalTableSales);
-        const newTotalFnBSalesPrice = totalFnBSalesPrice - parseFloat(discount);
+        // ori total sales plus back ori discount
+        const totalTableSalesPrice = parseFloat(getTotalTableSales.totalTableSales) + parseFloat(getTotalTableSales.discount);
+        
+        const newTotalFnBSalesPrice = totalTableSalesPrice - parseFloat(discount);
 
         const tableSales = await prisma.tableSales.update({
             where: {
