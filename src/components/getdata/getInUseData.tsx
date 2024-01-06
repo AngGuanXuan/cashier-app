@@ -13,7 +13,7 @@ interface TableInUseProps {
   timeData: OperateTime;
 }
 
-const getInUseData: FC<TableInUseProps> = ({
+const GetInUseData: FC<TableInUseProps> = ({
   table_Id,
   tableName,
   timeData,
@@ -55,4 +55,4 @@ const getInUseData: FC<TableInUseProps> = ({
   );
 };
 
-export default getInUseData;
+export default GetInUseData;

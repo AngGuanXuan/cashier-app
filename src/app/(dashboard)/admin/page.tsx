@@ -37,7 +37,9 @@ const page = async () => {
                     <div className="divider"></div>
                     <div className="mt-auto space-y-2">
                       <h3 className="font-medium">Tips:</h3>
-                      <p>Click on "Operate Now" to start cashier mode.</p>
+                      <p>
+                        Click on &#34;Operate Now&#34; to start cashier mode.
+                      </p>
                     </div>
                   </div>
                 </div>
