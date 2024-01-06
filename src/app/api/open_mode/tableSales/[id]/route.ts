@@ -19,7 +19,8 @@ export async function GET(req: Request, context: ContextProps) {
                 createdAt: 'desc'
             },
             include: {
-                Table: true
+                Table: true,
+                OperateTime: true,
             }
         });
 

@@ -2,8 +2,8 @@ import React from "react";
 import Header from "@/components/layouts/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { IoIosPrint } from "react-icons/io";
 import FormSelectRate from "@/components/forms/FormSelectRate";
+import PrintTotalSalesToday from "@/components/totalSalesPerDay/PrintTotalSalesToday";
 import User from "@/components/User";
 
 const page = async () => {
@@ -58,56 +58,7 @@ const page = async () => {
             </div>
           </div>
 
-          <div className="flex flex-row space-x-4">
-            <div className="card border-2 border-neutral w-1/4">
-              <div className="card-body space-y-2">
-                <div>
-                  <h2 className="card-title">Total Sales Today</h2>
-                </div>
-                <div className="flex items-end !mt-auto space-x-2">
-                  <span className="text-sm text-neutral-400">RM</span>
-                  <h1 className="text-3xl font-semibold">1,000</h1>
-                </div>
-              </div>
-            </div>
-            <div className="card border-2 border-success w-1/4">
-              <div className="card-body space-y-2">
-                <div>
-                  <h2 className="card-title">Total Table Sales Today</h2>
-                </div>
-                <div className="flex items-end !mt-auto space-x-2">
-                  <span className="text-sm text-neutral-400">RM</span>
-                  <h1 className="text-3xl font-semibold">1,000</h1>
-                </div>
-              </div>
-            </div>
-            <div className="card border-2 border-neutral w-1/4">
-              <div className="card-body space-y-2">
-                <div>
-                  <h2 className="card-title">
-                    Total Food &amp; Beverage Sales Today
-                  </h2>
-                </div>
-                <div className="flex items-end !mt-auto space-x-2">
-                  <span className="text-sm text-neutral-400">RM</span>
-                  <h1 className="text-3xl font-semibold">1,000</h1>
-                </div>
-              </div>
-            </div>
-            <div className="card border border-neutral w-1/4">
-              <div className="card-body space-y-2">
-                <div>
-                  <h2 className="card-title font-medium text-neutral-700">
-                    Print Today Sales
-                  </h2>
-                </div>
-                <button className="btn btn-accent !mt-auto w-full">
-                  <IoIosPrint />
-                  Print
-                </button>
-              </div>
-            </div>
-          </div>
+          <PrintTotalSalesToday />
         </div>
         {/* <div>
           <h2>Client Session</h2>

@@ -43,7 +43,7 @@ const FormInUse: FC<TableInUseProps> = ({ tableName, initialValue }) => {
     let minutes = Math.round(seconds / 60);
     let hours = Math.round(minutes / 60);
 
-    return hours;
+    return minutes;
   }
 
   // change format for display

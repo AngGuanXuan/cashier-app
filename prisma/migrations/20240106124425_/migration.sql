@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `tablesales` MODIFY `tableStopTime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);

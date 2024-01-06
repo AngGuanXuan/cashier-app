@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FC, useState } from "react";
-import { useForm } from "react-hook-form";
 import { FaCashRegister } from "react-icons/fa";
 
 interface CustomerPayProps {
@@ -19,8 +18,8 @@ const CustomerPay: FC<CustomerPayProps> = ({
     balance: "",
   });
 
-  // handlesubmit
-  const { register, handleSubmit } = useForm();
+  // set btn disabled
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   // handle change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,17 +38,14 @@ const CustomerPay: FC<CustomerPayProps> = ({
       balance: getBalance.toFixed(2).toString(),
     });
 
+    const checkBalance = Math.sign(getBalance);
+    // console.log(Math.sign(checkBalance));
+
     // remove btn disabled
-    if (Math.sign(getBalance) == 0 || Math.sign(getBalance) == 1) {
-      const topaidBtn = document.getElementById(
-        "toPaid"
-      ) as HTMLButtonElement | null;
-      topaidBtn?.removeAttribute("disabled");
+    if (Math.sign(checkBalance) == 1) {
+      setBtnDisabled(false);
     } else {
-      const topaidBtn = document.getElementById(
-        "toPaid"
-      ) as HTMLButtonElement | null;
-      topaidBtn?.setAttribute("disabled", "");
+      setBtnDisabled(true);
     }
   };
 
@@ -66,21 +62,15 @@ const CustomerPay: FC<CustomerPayProps> = ({
 
     // remove btn disabled
     if (Math.sign(balance) == 0 || Math.sign(balance) == 1) {
-      const topaidBtn = document.getElementById(
-        "toPaid"
-      ) as HTMLButtonElement | null;
-      topaidBtn?.removeAttribute("disabled");
+      setBtnDisabled(false);
     } else {
-      const topaidBtn = document.getElementById(
-        "toPaid"
-      ) as HTMLButtonElement | null;
-      topaidBtn?.setAttribute("disabled", "");
+      setBtnDisabled(true);
     }
   };
 
   // to paid btn
   const sendToPaid = async () => {
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const response = await axios.put(
@@ -89,6 +79,7 @@ const CustomerPay: FC<CustomerPayProps> = ({
       );
       if (response.status === 200) {
         alert("customer Paid");
+        location.reload();
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -173,10 +164,9 @@ const CustomerPay: FC<CustomerPayProps> = ({
       </div>
       <div className="text-end">
         <button
-          id="toPaid"
           onClick={() => sendToPaid()}
           className="btn btn-success"
-          disabled={formData.balance == "" ? true : false}
+          disabled={btnDisabled}
         >
           <FaCashRegister />
           Confirm Paid

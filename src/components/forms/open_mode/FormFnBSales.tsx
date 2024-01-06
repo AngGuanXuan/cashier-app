@@ -65,7 +65,7 @@ const FormFnBSales: FC<FnBSalesProps> = ({ tableSalesId }) => {
   const onSubmit: SubmitHandler<foodBeverageAddSalesValues> = async (
     formData: foodBeverageAddSalesValues
   ) => {
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const response = await axios.post(

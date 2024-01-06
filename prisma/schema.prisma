@@ -145,23 +145,25 @@ model OperateTime {
 }
 
 model TableSales {
-  id              Int          @id @default(autoincrement())
-  Table           Table?       @relation(fields: [tableId], references: [id])
-  tableId         Int?
-  note            String
-  FnBSales        FnBSales[]
-  OperateTime     OperateTime? @relation(fields: [operateTimeId], references: [id])
-  operateTimeId   Int?
-  hourSpend       String
-  tableRateSales  String
-  totalFnBSales   String
-  totalTableSales String
-  discount        String
-  customerPay     String
-  balance         String
-  paid            Boolean      @default(false)
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id                  Int          @id @default(autoincrement())
+  Table               Table?       @relation(fields: [tableId], references: [id])
+  tableId             Int?
+  note                String
+  FnBSales            FnBSales[]
+  OperateTime         OperateTime? @relation(fields: [operateTimeId], references: [id])
+  operateTimeId       Int?
+  tableStopTime       DateTime     @default(now())
+  timeSpend           String
+  tableRateSales      String
+  totalFnBSales       String
+  totalBeforeDiscount String
+  totalTableSales     String
+  discount            String
+  customerPay         String
+  balance             String
+  paid                Boolean      @default(false)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
 }
 
 model FnBSales {

@@ -11,9 +11,10 @@ export async function POST(req: Request) {
                 tableId , 
                 note , 
                 operateTimeId , 
-                hourSpend:"0" , 
+                timeSpend:"0" , 
                 tableRateSales: "0.00" , 
                 totalFnBSales: "0.00" , 
+                totalBeforeDiscount: "0.00",
                 totalTableSales: "0.00" , 
                 discount: "0.00",
                 customerPay: "0.00",
@@ -40,6 +41,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
     try{
+        const getTime = new Date();
         const { id , tableId , note , timeDif } = await req.json();
 
         // get rate
@@ -57,7 +59,9 @@ export async function PUT(req: Request) {
             return NextResponse.json({operateTime: null, message: "rate not exist"}, {status: 409});
         };
 
-        const totalPrice = parseInt(timeDif) * parseFloat(Operaterate.rate);
+        const ratePerMinute = parseFloat(Operaterate.rate) / 60;
+        const totalPrice = parseInt(timeDif) * ratePerMinute;
+        const totalRateSalesPrice = Math.ceil(totalPrice * 100) / 100;
 
         // get totalFnBsales
         const getTotalFnBSales = await prisma.tableSales.findFirst({
@@ -75,7 +79,8 @@ export async function PUT(req: Request) {
         };
 
         const totalFnBSalesPrice = parseFloat(getTotalFnBSales.totalFnBSales);
-        const totalTablePrice = totalPrice + totalFnBSalesPrice;
+        const totalTablePrice = totalRateSalesPrice + totalFnBSalesPrice;
+        const roundedTotalTablePrice = Math.ceil(totalTablePrice * 10) / 10;
 
         const tableSales = await prisma.tableSales.update({
             where: {
@@ -83,9 +88,11 @@ export async function PUT(req: Request) {
             },
             data: {
                 note: note,
-                hourSpend: timeDif.toString(),
-                tableRateSales: totalPrice.toFixed(2).toString(),
-                totalTableSales: totalTablePrice.toFixed(2).toString(),
+                tableStopTime: getTime,
+                timeSpend: timeDif.toString(),
+                tableRateSales: totalRateSalesPrice.toFixed(2).toString(),
+                totalBeforeDiscount: roundedTotalTablePrice.toFixed(2).toString(),
+                totalTableSales: roundedTotalTablePrice.toFixed(2).toString(),
             },
         });
 

@@ -12,8 +12,8 @@ export async function PUT(req: Request) {
                 id: tableSalesId,
             },
             select: {
-                totalTableSales: true,
                 discount: true,
+                totalTableSales: true,
             }
         });
 

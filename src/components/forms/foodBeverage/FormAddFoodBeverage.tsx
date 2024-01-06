@@ -22,7 +22,7 @@ const FormAddFoodBeverage: FC<ModalProps> = ({ setModalOpen }) => {
 
   const [formData, setFormData] = useState<foodBeverageValues>({
     name: "",
-    price: "",
+    price: "0.00",
     CategoryId: 1,
   });
 
@@ -54,11 +54,11 @@ const FormAddFoodBeverage: FC<ModalProps> = ({ setModalOpen }) => {
   // handlepricechange
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const { name } = e.target;
-    const value = parseFloat(e.target.value)?.toFixed(2);
+    const { value } = e.target;
     setFormData({
-      ...formData,
-      [name]: value,
+      name: formData.name,
+      price: parseFloat(value).toFixed(2).toString(),
+      CategoryId: formData.CategoryId,
     });
   };
 

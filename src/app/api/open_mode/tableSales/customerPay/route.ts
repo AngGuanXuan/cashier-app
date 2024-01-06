@@ -32,16 +32,38 @@ export async function PUT(req: Request) {
             operateTimeId = 0;
         }
 
+        // get all table sales data
+        const oriDailySales = await prisma.operateTime.findFirst({
+            where: {
+                id: operateTimeId,
+            },
+            select: {
+                totalTableSales: true,
+                totalFnBSales: true,
+                totalDaySales: true,
+                TotalDiscount: true,
+            },
+        });
+        // if total table sales not exist
+        if(!oriDailySales) {
+            return NextResponse.json({operateTime: null, message: "operate time table sales not exist"}, {status: 409});
+        };
+
+        const updatedTotalTableSales = parseFloat(oriDailySales.totalTableSales) + parseFloat(getAllTableSales.tableRateSales);
+        const updatedTotalFnBSales = parseFloat(oriDailySales.totalFnBSales) + parseFloat(getAllTableSales.totalFnBSales)
+        const updatedTotalDaySales = parseFloat(oriDailySales.totalDaySales) + parseFloat(getAllTableSales.totalTableSales)
+        const updatedTotalDiscount = parseFloat(oriDailySales.TotalDiscount) + parseFloat(getAllTableSales.discount)
+
         // update daily sales
         const updateDailySales = await prisma.operateTime.update({
             where: {
                 id: operateTimeId,
             },
             data: {
-                totalTableSales: getAllTableSales.totalTableSales,
-                totalFnBSales: getAllTableSales.totalFnBSales,
-                totalDaySales: getAllTableSales.totalTableSales,
-                TotalDiscount: getAllTableSales.discount,
+                totalTableSales: updatedTotalTableSales.toFixed(2).toString(),
+                totalFnBSales: updatedTotalFnBSales.toFixed(2).toString(),
+                totalDaySales: updatedTotalDaySales.toFixed(2).toString(),
+                TotalDiscount: updatedTotalDiscount.toFixed(2).toString(),
             },
         });
 
