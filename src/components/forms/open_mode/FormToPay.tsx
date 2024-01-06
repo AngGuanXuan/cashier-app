@@ -105,24 +105,26 @@ const FormToPay: FC<TableToPayDataProps> = ({
         </div>
         <div className="divider"></div>
         <div className="flex justify-between items-center">
-          <h2 className="text-lg">Total &#40;RM&#41;</h2>
-          <h2 className="text-2xl font-semibold">
-            RM {initialValue.totalTableSales}
-          </h2>
-        </div>
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg">Discount Given &#40;RM&#41;</h2>
+          <h2 className="text-lg">Discount Given</h2>
           <AddDiscount
             tableSalesId={initialValue.id}
             tableDiscount={initialValue.discount}
           />
         </div>
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg">Total </h2>
+          <h2 className="flex text-2xl font-semibold">
+            RM{" "}
+            <span className="w-36 text-end ms-2 px-4">
+              {initialValue.totalTableSales}
+            </span>
+          </h2>
+        </div>
       </div>
       <div className="divider"></div>
       <CustomerPay
+        tableSalesId={initialValue.id}
         totalTableSales={initialValue.totalTableSales}
-        customerPay={initialValue.customerPay}
-        salesBalance={initialValue.balance}
       />
     </div>
   );

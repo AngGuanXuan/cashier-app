@@ -37,7 +37,11 @@ export async function POST() {
         const startTime = await prisma.operateTime.create({
             data: {
                 mode: "open",
-                rate: Operaterate.rateperhour
+                rate: Operaterate.rateperhour,
+                totalTableSales: "0.00",
+                totalFnBSales: "0.00",
+                TotalDiscount: "0.00",
+                totalDaySales: "0.00",
             },
         });
 

@@ -138,6 +138,7 @@ model OperateTime {
   TableSales      TableSales[]
   totalTableSales String
   totalFnBSales   String
+  TotalDiscount   String
   totalDaySales   String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
