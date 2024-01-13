@@ -6,5 +6,8 @@ export type CompanyDetailsValues = {
     address_2: string;
     city: string;
     stateId: number;
+    state: {
+        name: string;
+    } ;
     posCode: string;
 }

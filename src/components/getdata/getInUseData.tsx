@@ -4,13 +4,13 @@ import { FC } from "react";
 import FormInUse from "../forms/open_mode/table/FormInUse";
 import FormFnBSales from "../forms/open_mode/FormFnBSales";
 import FormToPay from "../forms/open_mode/FormToPay";
-import { OperateTime } from "@prisma/client";
+import { RateGlobalValues } from "@/types/rate/getRateGlobal";
 
 interface TableInUseProps {
   table_Id: number;
   tableName: string;
   tableStatusId: number;
-  timeData: OperateTime;
+  timeData: RateGlobalValues;
 }
 
 const GetInUseData: FC<TableInUseProps> = ({
@@ -19,6 +19,17 @@ const GetInUseData: FC<TableInUseProps> = ({
   timeData,
   tableStatusId,
 }) => {
+  // get current time
+  const curTime = new Date().getHours();
+  let getRate = "0.00";
+
+  // check time and rate
+  if (curTime <= 17) {
+    getRate = timeData.Rate.ratebefore5;
+  } else {
+    getRate = timeData.Rate.rateafter5;
+  }
+
   // get table sales list
   const { data: tableSalesData, isLoading } = useQuery({
     queryKey: ["tableSales"],
@@ -47,7 +58,7 @@ const GetInUseData: FC<TableInUseProps> = ({
       ) : (
         <FormToPay
           tableName={tableName}
-          timeRate={timeData.rate}
+          timeRate={getRate}
           initialValue={tableSalesData}
         />
       )}

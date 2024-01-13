@@ -80,7 +80,9 @@ const FormSelectRate = () => {
       >
         {dataRate?.map((rate) => (
           <option key={rate.id} value={rate.id}>
-            {rate.name} - RM{rate.rateperhour}
+            {rate.name} &#8211; &#160; Before 5pm &#58; RM
+            {rate.ratebefore5} &#160; &#8596; &#160; After 5pm &#58; RM
+            {rate.rateafter5}
           </option>
         ))}
       </select>

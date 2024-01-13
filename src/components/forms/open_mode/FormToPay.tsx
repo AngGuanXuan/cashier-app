@@ -9,6 +9,7 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { format } from "date-fns";
 import { HiPrinter } from "react-icons/hi2";
+import { CompanyDetailsValues } from "@/types/company-details";
 
 interface TableToPayDataProps {
   tableName: string;
@@ -33,6 +34,16 @@ const FormToPay: FC<TableToPayDataProps> = ({
     content: () => componentRef.current,
   });
 
+  // get company data
+  const { data: companydata, isLoading: companyDataLoading } =
+    useQuery<CompanyDetailsValues>({
+      queryKey: ["company"],
+      queryFn: async () => {
+        const response = await axios.get("/api/company");
+        return response.data;
+      },
+    });
+
   // get fnb sales list
   const { data: fnBSalesData, isLoading } = useQuery<foodBeveragePayValues[]>({
     queryKey: ["fnbSales"],
@@ -44,6 +55,13 @@ const FormToPay: FC<TableToPayDataProps> = ({
     },
   });
 
+  if (companyDataLoading) {
+    return (
+      <div className="flex">
+        <span className="loading loading-ring loading-lg mx-auto"></span>
+      </div>
+    );
+  }
   if (isLoading) {
     return (
       <div className="flex">
@@ -60,8 +78,14 @@ const FormToPay: FC<TableToPayDataProps> = ({
       <div className="space-y-4">
         <div ref={componentRef} className="p-2 text-xs font-mono">
           <div className="border-b-2 border-dashed border-black pb-4 text-center space-y-2">
-            <h2>LCCL ENTERPRISE</h2>
-            <h3>SS15 SUBANG JAYA</h3>
+            <h2>{companydata?.name}</h2>
+            <p>
+              {companydata?.address_1}, {companydata?.address_2} <br />
+              {companydata?.city}, {companydata?.posCode},{" "}
+              {companydata?.state.name}
+            </p>
+            <h3>{companydata?.phone_no}</h3>
+            <h3>{companydata?.email}</h3>
           </div>
           <div>
             <div className="pt-4">
@@ -76,7 +100,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
             </div>
             <div className="pt-2">
               <h2 className="uppercase">&#91;Snooker&#93;</h2>
-              <h2>Rate &#61; {initialValue.OperateTime.rate} &#92; 1 hr</h2>
+              <h2>Rate &#61; {initialValue.salesRate} &#92; 60 min</h2>
             </div>
             <div className="pt-2">
               <h2 className="uppercase">&#91;Snooker&#93;</h2>
@@ -93,7 +117,11 @@ const FormToPay: FC<TableToPayDataProps> = ({
               </h2>
             </div>
             <div className="pt-4">
-              <h2 className="uppercase">&#91;Food &#38; Beverage&#93;</h2>
+              {fnBSalesData == undefined ? (
+                <h2 className="uppercase">&#91;Food &#38; Beverage&#93;</h2>
+              ) : (
+                ""
+              )}
               <div className="pt-2">
                 {fnBSalesData?.map((fnbPay) => (
                   <div key={fnbPay.id} className="pb-2">

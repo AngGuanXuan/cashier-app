@@ -58,7 +58,13 @@ const FormInUse: FC<TableInUseProps> = ({ tableName, initialValue }) => {
     minutes = minutes % 60;
     hours = hours % 24;
 
-    const timeSpend = hours + "h " + minutes + "m " + seconds + "s";
+    const timeSpend =
+      hours.toString().padStart(2, "0") +
+      "h " +
+      minutes.toString().padStart(2, "0") +
+      "m " +
+      seconds.toString().padStart(2, "0") +
+      "s";
 
     return timeSpend;
   }
@@ -146,11 +152,19 @@ const FormInUse: FC<TableInUseProps> = ({ tableName, initialValue }) => {
       <div>
         <h2 className="text-xl font-semibold">{tableName}</h2>
       </div>
+      <div className="flex flex-col justify-center">
+        <span>
+          Time Started&#58; &nbsp;
+          {format(initialValue.createdAt, "EEE MMM d yyyy HH:mm:ss")}
+        </span>
+        <span>Rate&#58; &nbsp; RM {initialValue.salesRate}</span>
+      </div>
       <div className="flex justify-center">
         <span className="border-2 border-neutral rounded-box shadow-md text-neutral-content font-mono text-4xl p-4">
           {openTime}
         </span>
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col space-y-2">
           <label>Note</label>

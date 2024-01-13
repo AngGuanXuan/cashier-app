@@ -11,6 +11,7 @@ export type TableSalesAllValues = {
     };
     tableStopTime: DateTime;
     timeSpend: string;
+    salesRate: string;
     tableRateSales: string;
     totalFnBSales: string;
     totalBeforeDiscount: string;

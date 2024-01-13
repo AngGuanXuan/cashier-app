@@ -1,14 +1,18 @@
-import { OperateTime } from "@prisma/client";
+import { RateGlobalValues } from "@/types/rate/getRateGlobal";
 import { format } from "date-fns";
 import { FC, useEffect, useState } from "react";
 
 interface timeDataProps {
-  timeData: OperateTime;
+  timeData: RateGlobalValues;
 }
 
 function getDisplayTime() {
   return new Date();
 }
+
+// get current time
+const curTime = new Date().getHours();
+// console.log(curTime);
 
 const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
   // set current time
@@ -34,7 +38,13 @@ const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
     minutes = minutes % 60;
     hours = hours % 24;
 
-    const timeSpend = hours + "h " + minutes + "m " + seconds + "s";
+    const timeSpend =
+      hours.toString().padStart(2, "0") +
+      "h " +
+      minutes.toString().padStart(2, "0") +
+      "m " +
+      seconds.toString().padStart(2, "0") +
+      "s";
 
     return timeSpend;
   }
@@ -58,8 +68,8 @@ const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
         {/* <div>{openTime}</div> */}
       </div>
       <div>
-        <span className="text-neutral-300">Hourly Rate: </span> RM
-        {timeData.rate}
+        <span className="text-neutral-300">Current Rate: </span> RM
+        {curTime <= 17 ? timeData.Rate.ratebefore5 : timeData.Rate.rateafter5}
       </div>
     </div>
   );

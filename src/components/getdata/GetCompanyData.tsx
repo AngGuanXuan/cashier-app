@@ -5,7 +5,7 @@ import React from "react";
 import FormSettings from "../forms/FormSettings";
 
 const GetCompanyData = () => {
-  // get ori data
+  // get company data
   const { data: companydata, isLoading } = useQuery({
     queryKey: ["company"],
     queryFn: async () => {

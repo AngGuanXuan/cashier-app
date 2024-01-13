@@ -59,8 +59,11 @@ const page = async () => {
               </div>
             </div>
           </div>
-
-          <PrintTotalSalesToday />
+          {session?.user.email == "lccl.enterprise@gmail.com" ? (
+            <PrintTotalSalesToday />
+          ) : (
+            ""
+          )}
         </div>
         {/* <div>
           <h2>Client Session</h2>

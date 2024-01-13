@@ -6,6 +6,9 @@ export async function GET() {
         const startTime = await prisma.operateTime.findFirst({
             where: {
                 mode: "open"
+            },
+            include: {
+                Rate: true,
             }
         });
 
@@ -20,24 +23,21 @@ export async function POST() {
     try{
 
         // // get rate
-        const Operaterate = await prisma.rate.findFirst({
+        const getRate = await prisma.rate.findFirst({
             where: { 
                 selected: true,
-            },
-            select: {
-                rateperhour: true
             }
         });
 
         // if price not exist
-        if(!Operaterate) {
+        if(!getRate) {
             return NextResponse.json({operateTime: null, message: "rate not exist"}, {status: 409});
         };
 
         const startTime = await prisma.operateTime.create({
             data: {
                 mode: "open",
-                rate: Operaterate.rateperhour,
+                rateId: getRate.id,
                 totalTableSales: "0.00",
                 totalFnBSales: "0.00",
                 TotalDiscount: "0.00",

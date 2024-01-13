@@ -1,5 +1,6 @@
 export type RateValues = {
   name: string;
-  rateperhour: string;
+  ratebefore5: string;
+  rateafter5: string;
   selected: boolean;
 }

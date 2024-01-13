@@ -1,6 +1,5 @@
-import { foodBeverageDataValues } from "@/types/foodBeverage/food-beverage-data";
+import { RateGlobalValues } from "@/types/rate/getRateGlobal";
 import { TableSalesValues } from "@/types/table/table-sales";
-import { OperateTime } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -10,7 +9,7 @@ import TextareaAutosize from "react-textarea-autosize";
 interface TableDataProps {
   table_Id: number;
   tableName: string;
-  timeData: OperateTime;
+  timeData: RateGlobalValues;
 }
 
 const FormStartTime: FC<TableDataProps> = ({

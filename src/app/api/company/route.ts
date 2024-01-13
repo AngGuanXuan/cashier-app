@@ -7,6 +7,9 @@ export async function GET() {
             where: {
                 id: 1
             },
+            include: {
+                state: true,
+            }
         });
 
         return NextResponse.json(company, {status: 200});

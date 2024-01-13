@@ -40,9 +40,6 @@ const OpenMode = () => {
           <div className="w-4/12 p-4">
             <div className="bg-indigo-950/50 shadow-lg rounded-md h-full">
               <div className="flex flex-row items-center space-x-4 bg-indigo-950 px-8 py-6 shadow-md justify-end">
-                <h1 className="badge badge-outline badge-error text-lg font-bold uppercase text-white p-5 pointer-events-none">
-                  Open Now
-                </h1>
                 <EndOperateBtn timeData={timeData} />
               </div>
               <div className="p-4">

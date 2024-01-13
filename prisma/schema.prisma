@@ -10,15 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   email     String   @unique
-//   username  String   @unique
-//   password  String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -90,22 +81,25 @@ model State {
 }
 
 model Rate {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  rateperhour String
-  selected    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  ratebefore5 String
+  rateafter5  String
+  selected    Boolean       @default(false)
+  OperateTime OperateTime[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 model Table {
-  id         Int          @id @default(autoincrement())
-  name       String       @unique
-  Status     Status?      @relation(fields: [statusId], references: [id])
-  statusId   Int?
-  TableSales TableSales[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id                   Int          @id @default(autoincrement())
+  name                 String       @unique
+  Status               Status?      @relation(fields: [statusId], references: [id])
+  statusId             Int?
+  TableSales           TableSales[]
+  LatestTableSalesTime DateTime
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
 }
 
 model Status {
@@ -134,7 +128,8 @@ model FnBCategory {
 model OperateTime {
   id              Int          @id @default(autoincrement())
   mode            String
-  rate            String
+  Rate            Rate?        @relation(fields: [rateId], references: [id])
+  rateId          Int?
   TableSales      TableSales[]
   totalTableSales String
   totalFnBSales   String
@@ -154,6 +149,7 @@ model TableSales {
   operateTimeId       Int?
   tableStopTime       DateTime     @default(now())
   timeSpend           String
+  salesRate           String
   tableRateSales      String
   totalFnBSales       String
   totalBeforeDiscount String

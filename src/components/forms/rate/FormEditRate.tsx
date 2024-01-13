@@ -1,4 +1,4 @@
-import { RateValues } from "@/types/rate";
+import { RateValues } from "@/types/rate/rate";
 import axios from "axios";
 import { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,7 +18,8 @@ const FormEditRate: FC<EditRateDataProps> = ({
   // set data
   const [formData, setFormData] = useState<RateValues>({
     name: initialValue.name,
-    rateperhour: initialValue.rateperhour,
+    ratebefore5: initialValue.ratebefore5,
+    rateafter5: initialValue.rateafter5,
     selected: initialValue.selected,
   });
 
@@ -46,8 +47,7 @@ const FormEditRate: FC<EditRateDataProps> = ({
   // handleratechange
   const handleRPHChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const { name } = e.target;
-    const value = parseFloat(e.target.value)?.toFixed(2);
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -56,15 +56,20 @@ const FormEditRate: FC<EditRateDataProps> = ({
 
   // onsubmit
   const onSubmit: SubmitHandler<RateValues> = async (formData: RateValues) => {
-    // console.log(formData);
+    formData.ratebefore5 = parseFloat(formData.ratebefore5)
+      .toFixed(2)
+      .toString();
+    formData.rateafter5 = parseFloat(formData.rateafter5).toFixed(2).toString();
+    console.log(formData);
     // console.log(rateId);
     try {
       const response = await axios.put(`/api/rate/${rateId}`, formData);
       if (response.status === 200) {
         alert("Changes Updated");
         setFormData({
-          name: "",
-          rateperhour: "",
+          name: initialValue.name,
+          ratebefore5: "0.00",
+          rateafter5: "0.00",
           selected: initialValue.selected,
         });
         setModalOpen(false);
@@ -85,7 +90,7 @@ const FormEditRate: FC<EditRateDataProps> = ({
       <div>
         <h1 className="text-xl font-semibold">Edit Hourly Rate</h1>
       </div>
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-6">
         <div className="flex flex-row space-x-4 items-end">
           <div className="flex flex-col w-1/2 pe-2 space-y-2">
             <label className="text-neutral-700 mb-6">Hourly Rate Name</label>
@@ -106,23 +111,49 @@ const FormEditRate: FC<EditRateDataProps> = ({
               </span>
             )}
           </div>
+        </div>
+        <div className="flex flex-row space-x-4 items-end">
           <div className="flex flex-col w-1/2 pe-2 space-y-2">
-            <label className="text-neutral-700">Rate per Hour</label>
+            <label className="text-neutral-700">
+              Rate Before 5&#58;00 p.m.
+            </label>
             <span className="label-text-alt">RM</span>
             <input
-              {...register("rateperhour", {
+              {...register("ratebefore5", {
                 required: "This field is required.",
               })}
               type="number"
-              name="rateperhour"
-              placeholder="Rate per Hour"
+              name="ratebefore5"
+              placeholder="Rate before 5"
               className="input input-bordered w-full"
-              value={formData.rateperhour}
+              step="0.50"
+              value={formData.ratebefore5}
               onChange={handleRPHChange}
             />
-            {errors.rateperhour && (
+            {errors.ratebefore5 && (
               <span className="text-error ms-4 mt-4">
-                {errors.rateperhour.message}
+                {errors.ratebefore5.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col w-1/2 pe-2 space-y-2">
+            <label className="text-neutral-700">Rate After 5&#58;00 p.m.</label>
+            <span className="label-text-alt">RM</span>
+            <input
+              {...register("rateafter5", {
+                required: "This field is required.",
+              })}
+              type="number"
+              name="rateafter5"
+              placeholder="Rate after 5"
+              className="input input-bordered w-full"
+              step="0.50"
+              value={formData.rateafter5}
+              onChange={handleRPHChange}
+            />
+            {errors.rateafter5 && (
+              <span className="text-error ms-4 mt-4">
+                {errors.rateafter5.message}
               </span>
             )}
           </div>

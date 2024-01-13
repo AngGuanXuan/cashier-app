@@ -5,12 +5,14 @@ import { MdTableRestaurant } from "react-icons/md";
 import Modal from "../modal/Modal";
 import { FC, useState } from "react";
 import FormStartTime from "../forms/open_mode/table/FormStartTime";
-import { OperateTime } from "@prisma/client";
 import GetInUseData from "./getInUseData";
 import OpenModeModal from "../modal/OpenModeModal";
+import { RateGlobalValues } from "@/types/rate/getRateGlobal";
+import { format } from "date-fns";
+import GetTableTime from "./GetTableTime";
 
 interface timeDataProps {
-  timeData: OperateTime;
+  timeData: RateGlobalValues;
 }
 
 const GetTableList: FC<timeDataProps> = ({ timeData }) => {
@@ -22,6 +24,9 @@ const GetTableList: FC<timeDataProps> = ({ timeData }) => {
       return response.data;
     },
   });
+
+  // current time - open time
+  const [openTime, setOpenTime] = useState();
 
   // modal
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -51,7 +56,7 @@ const GetTableList: FC<timeDataProps> = ({ timeData }) => {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
       {tabledata?.map((table) => (
         <div
           key={table.id}
@@ -70,9 +75,25 @@ const GetTableList: FC<timeDataProps> = ({ timeData }) => {
               <h3 className="card-title text-lg items">
                 <span className="text-sm font-medium text-neutral-600">
                   Status:
-                </span>{" "}
+                </span>
                 {table.Status.name}
               </h3>
+              {table.Status.id == 1 ? (
+                <div>
+                  <span className="bg-info/10 rounded shadow-md text-neutral-content font-mono text-2xl p-2">
+                    00h 00m 00s
+                  </span>
+                </div>
+              ) : table.Status.id == 2 ? (
+                <GetTableTime tableTime={table.LatestTableSalesTime} />
+              ) : (
+                <div>
+                  <span className="bg-info/10 rounded shadow-md text-neutral-content font-mono text-2xl p-2">
+                    --h --m --s
+                  </span>
+                </div>
+              )}
+
               <div className="card-actions">
                 <button className="btn btn-outline btn-default w-full">
                   <MdTableRestaurant />

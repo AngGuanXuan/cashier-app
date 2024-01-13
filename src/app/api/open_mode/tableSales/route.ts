@@ -6,12 +6,37 @@ export async function POST(req: Request) {
 
         const { tableId , note , operateTimeId } = await req.json();
 
+        // get sales rate
+         const OperateRate = await prisma.operateTime.findFirst({
+            where: { 
+                mode: "open",
+            },
+            include: {
+                Rate: true
+            }
+        });
+
+        // if rate not exist
+        if(!OperateRate) {
+            return NextResponse.json({operateTime: null, message: "rate not exist"}, {status: 409});
+        };
+
+        // get current time
+        // for testing : "2022-01-14 18:13:00"
+        const currentTime = new Date().getHours();
+        let getRate = OperateRate.Rate?.ratebefore5;
+
+        if(currentTime >= 17) {
+            getRate = OperateRate.Rate?.rateafter5;
+        }
+
         const table_sales = await prisma.tableSales.create({
             data: {
                 tableId , 
                 note , 
                 operateTimeId , 
                 timeSpend:"0" , 
+                salesRate: getRate ? getRate : "0.00",
                 tableRateSales: "0.00" , 
                 totalFnBSales: "0.00" , 
                 totalBeforeDiscount: "0.00",
@@ -27,7 +52,8 @@ export async function POST(req: Request) {
                 id: tableId,
             },
             data: {
-                statusId: 2
+                statusId: 2,
+                LatestTableSalesTime: new Date(),
             }
         });
 
@@ -45,23 +71,25 @@ export async function PUT(req: Request) {
         const { id , tableId , note , timeDif } = await req.json();
 
         // get rate
-        const Operaterate = await prisma.operateTime.findFirst({
+        const getSalesRate = await prisma.tableSales.findFirst({
             where: { 
-                mode: "open",
+                id: id,
             },
             select: {
-                rate: true
+                salesRate: true
             }
         });
 
-        // if price not exist
-        if(!Operaterate) {
+        // if rate not exist
+        if(!getSalesRate) {
             return NextResponse.json({operateTime: null, message: "rate not exist"}, {status: 409});
         };
 
-        const ratePerMinute = parseFloat(Operaterate.rate) / 60;
+        // change rate hr to min
+        let ratePerMinute = parseFloat(getSalesRate.salesRate) / 60;
+
         const totalPrice = parseInt(timeDif) * ratePerMinute;
-        const totalRateSalesPrice = Math.ceil(totalPrice * 100) / 100;
+        const totalRateSalesPrice = Math.ceil(totalPrice * 10) / 10;
 
         // get totalFnBsales
         const getTotalFnBSales = await prisma.tableSales.findFirst({

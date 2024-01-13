@@ -5,4 +5,5 @@ export type TableCardValues = {
         id: number;
         name: string;
     };
+    LatestTableSalesTime: Date;
 }

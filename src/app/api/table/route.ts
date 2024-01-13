@@ -33,6 +33,7 @@ export async function POST(req: Request) {
             data: {
                 name,
                 statusId: 1,
+                LatestTableSalesTime: new Date(),
             }
         });
 

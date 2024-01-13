@@ -31,7 +31,8 @@ const ListofRates = () => {
           <tr className="text-md">
             <th></th>
             <th>Name</th>
-            <th>Rate per Hour</th>
+            <th>Rate Before 5&#58;00 p.m.</th>
+            <th>Rate After 5&#58;00 p.m.</th>
             <th>Selected</th>
             <th>CreatedAt</th>
             <th>UpdatedAt</th>
@@ -43,11 +44,12 @@ const ListofRates = () => {
             <tr key={rates.id}>
               <th>{rates.id}</th>
               <th>{rates.name}</th>
-              <td>{rates.rateperhour}</td>
+              <td>{rates.ratebefore5}</td>
+              <td>{rates.rateafter5}</td>
               <td>{rates.selected.toString()}</td>
               <td>{format(rates.createdAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td>{format(rates.updatedAt, "dd/LL/yyyy HH:mm:ss")}</td>
-              <td className="space-x-2">
+              <td className="space-y-2">
                 <EditRateBtn rateId={rates.id} />
                 <DeleteRateBtn rateId={rates.id} rateName={rates.name} />
               </td>

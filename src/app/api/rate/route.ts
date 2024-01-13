@@ -20,7 +20,7 @@ export async function GET() {
 export async function POST(req: Request) {
     try{
 
-        const { name, rateperhour, selected } = await req.json();
+        const { name, ratebefore5, rateafter5 , selected } = await req.json();
 
         // check if rate exist
         const nameExist = await prisma.rate.findUnique({
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
         const rate = await prisma.rate.create({
             data: {
-                name, rateperhour , selected 
+                name, ratebefore5 , rateafter5 , selected 
             }
         });
 

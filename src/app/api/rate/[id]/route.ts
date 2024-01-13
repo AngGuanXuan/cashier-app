@@ -26,7 +26,7 @@ export async function GET(req: Request, context: ContextProps) {
 export async function PUT(req: Request, context: ContextProps) {
     try{
         const {params} = context;
-        const { name, rateperhour, selected } = await req.json();
+        const { name, ratebefore5, rateafter5 , selected } = await req.json();
 
         const rate = await prisma.rate.update({
             where: {
@@ -34,7 +34,8 @@ export async function PUT(req: Request, context: ContextProps) {
             },
             data: {
                 name: name, 
-                rateperhour: rateperhour, 
+                ratebefore5: ratebefore5,
+                rateafter5: rateafter5,
                 selected: selected
             },
         });

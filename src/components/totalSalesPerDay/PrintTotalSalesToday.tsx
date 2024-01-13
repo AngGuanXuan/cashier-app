@@ -5,15 +5,27 @@ import { IoIosPrint } from "react-icons/io";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { format } from "date-fns";
+import { CompanyDetailsValues } from "@/types/company-details";
 
 type TotalSalesValues = {
   totalTableSales: string;
   totalFnBSales: string;
   TotalDiscount: string;
   totalDaySales: string;
+  updatedAt: Date;
 };
 
 const PrintTotalSalesToday = () => {
+  // get company data
+  const { data: companydata, isLoading: companyDataLoading } =
+    useQuery<CompanyDetailsValues>({
+      queryKey: ["company"],
+      queryFn: async () => {
+        const response = await axios.get("/api/company");
+        return response.data;
+      },
+    });
+
   // get data
   const { data: totalSalesdata, isLoading } = useQuery<TotalSalesValues>({
     queryKey: ["totalSales"],
@@ -35,6 +47,14 @@ const PrintTotalSalesToday = () => {
     content: () => componentRef.current,
   });
 
+  if (companyDataLoading) {
+    return (
+      <div className="flex">
+        <span className="loading loading-ring loading-lg mx-auto"></span>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="flex">
@@ -44,7 +64,16 @@ const PrintTotalSalesToday = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-10">
+      <div>
+        <h2 className="text-neutral-600 font-semibold">
+          Last Updated&#58; &nbsp;
+          {format(
+            totalSalesdata?.updatedAt ? totalSalesdata?.updatedAt : "",
+            "dd/LL/yyyy HH:mm:ss"
+          )}
+        </h2>
+      </div>
       <div className="flex flex-row space-x-4">
         <div className="card border-2 border-neutral w-1/4">
           <div className="card-body space-y-2">
@@ -110,8 +139,14 @@ const PrintTotalSalesToday = () => {
       </div>
       <div ref={componentRef} className="p-2 text-xs font-mono">
         <div className="border-b-2 border-dashed border-black pb-4 text-center space-y-2">
-          <h2>LCCL ENTERPRISE</h2>
-          <h3>SS15 SUBANG JAYA</h3>
+          <h2>{companydata?.name}</h2>
+          <p>
+            {companydata?.address_1}, {companydata?.address_2} <br />
+            {companydata?.city}, {companydata?.posCode},{" "}
+            {companydata?.state.name}
+          </p>
+          <h3>{companydata?.phone_no}</h3>
+          <h3>{companydata?.email}</h3>
         </div>
         <div>
           <div className="pt-4">
