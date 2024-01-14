@@ -23,10 +23,14 @@ export async function POST(req: Request) {
 
         // get current time
         // for testing : "2022-01-14 18:13:00"
-        const currentTime = new Date().getHours();
+        const currentTime = new Date("2022-01-14 05:13:00").getHours();
         let getRate = OperateRate.Rate?.ratebefore5;
 
-        if(currentTime >= 17) {
+        if(currentTime <= 6 ) {
+            getRate = OperateRate.Rate?.rateafter5;
+        }
+
+        if(currentTime >= 17 ) {
             getRate = OperateRate.Rate?.rateafter5;
         }
 
