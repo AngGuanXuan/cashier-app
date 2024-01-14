@@ -69,7 +69,9 @@ const PrintTotalSalesToday = () => {
         <h2 className="text-neutral-600 font-semibold">
           Last Updated&#58; &nbsp;
           {format(
-            totalSalesdata?.updatedAt ? totalSalesdata?.updatedAt : "",
+            totalSalesdata?.updatedAt
+              ? totalSalesdata?.updatedAt
+              : "2022-01-14 18:13:00",
             "dd/LL/yyyy HH:mm:ss"
           )}
         </h2>
