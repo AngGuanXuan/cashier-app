@@ -62,7 +62,7 @@ const page = async () => {
           {session?.user.email == "lccl.enterprise@gmail.com" ? (
             <PrintTotalSalesToday />
           ) : (
-            ""
+            "2022-01-14 18:13:00"
           )}
         </div>
         {/* <div>
