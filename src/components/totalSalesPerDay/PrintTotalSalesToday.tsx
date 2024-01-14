@@ -140,7 +140,8 @@ const PrintTotalSalesToday = () => {
         </button>
       </div>
       <div ref={componentRef} className="p-2 text-xs font-mono">
-        <div className="border-b-2 border-dashed border-black pb-4 text-center space-y-2">
+        <div className="border-b border-dashed border-black py-4"></div>
+        <div className="border-b-2 border-dashed border-black py-4 text-center space-y-2">
           <h2>{companydata?.name}</h2>
           <p>
             {companydata?.address_1}, {companydata?.address_2} <br />
@@ -150,7 +151,7 @@ const PrintTotalSalesToday = () => {
           <h3>{companydata?.phone_no}</h3>
           <h3>{companydata?.email}</h3>
         </div>
-        <div>
+        <div className="px-2">
           <div className="pt-4">
             <h2>{format(new Date(), "dd/LL/yyyy HH:mm:ss")}</h2>
           </div>
@@ -171,6 +172,7 @@ const PrintTotalSalesToday = () => {
             <p>RM {totalSalesdata?.TotalDiscount}</p>
           </div>
         </div>
+        <div className="border-b border-dashed border-black py-4"></div>
       </div>
     </div>
   );

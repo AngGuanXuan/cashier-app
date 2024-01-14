@@ -77,7 +77,8 @@ const FormToPay: FC<TableToPayDataProps> = ({
       </div>
       <div className="space-y-4">
         <div ref={componentRef} className="p-2 text-xs font-mono">
-          <div className="border-b-2 border-dashed border-black pb-4 text-center space-y-2">
+          <div className="border-b border-dashed border-black py-4"></div>
+          <div className="border-b-2 border-dashed border-black py-4 text-center space-y-2">
             <h2>{companydata?.name}</h2>
             <p>
               {companydata?.address_1}, {companydata?.address_2} <br />
@@ -87,7 +88,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
             <h3>{companydata?.phone_no}</h3>
             <h3>{companydata?.email}</h3>
           </div>
-          <div>
+          <div className="px-2">
             <div className="pt-4">
               <h2>Invoice No - 000100{initialValue.id}</h2>
               <h2>{format(new Date(), "dd/LL/yyyy HH:mm:ss")}</h2>
@@ -156,6 +157,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
             <h1>Thank You For Visit</h1>
             <h1>Please Come Again</h1>
           </div>
+          <div className="border-b border-dashed border-black py-4"></div>
         </div>
         <div className="text-center">
           <button onClick={handlePrint} className="btn btn-success">
