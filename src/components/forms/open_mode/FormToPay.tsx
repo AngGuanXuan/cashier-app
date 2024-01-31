@@ -133,7 +133,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
                       </span>
                     </h2>
                     <h2 className="flex">
-                      &#10761;2 &#61;{" "}
+                      &#10761;{fnbPay.amount} &#61;{" "}
                       <span className="ms-auto">RM {fnbPay.totalFnBSales}</span>
                     </h2>
                   </div>
