@@ -126,14 +126,10 @@ const FormToPay: FC<TableToPayDataProps> = ({
               <div className="pt-2">
                 {fnBSalesData?.map((fnbPay) => (
                   <div key={fnbPay.id} className="pb-2">
+                    <h2 className="flex">{fnbPay.FoodBeverage.name}</h2>
                     <h2 className="flex">
-                      {fnbPay.FoodBeverage.name} &#61;
-                      <span className="ms-auto">
-                        {fnbPay.FoodBeverage.price}
-                      </span>
-                    </h2>
-                    <h2 className="flex">
-                      &#10761;{fnbPay.amount} &#61;{" "}
+                      RM {fnbPay.FoodBeverage.price} &#10761; {fnbPay.amount}{" "}
+                      &#61;{" "}
                       <span className="ms-auto">RM {fnbPay.totalFnBSales}</span>
                     </h2>
                   </div>
