@@ -1,27 +1,20 @@
+import { CompanyDetailsValues } from "@/types/company-details";
 import { foodBeveragePayValues } from "@/types/foodBeverage/food-beverage-pay";
-import { TableSalesAllValues } from "@/types/table/table-sales-all";
+import { FnBSalesIndvidual } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { FC } from "react";
-import AddDiscount from "./AddDiscount";
-import CustomerPay from "@/components/input/CustomerPay";
-import React, { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
 import { format } from "date-fns";
+import React, { FC, useRef } from "react";
 import { HiPrinter } from "react-icons/hi2";
-import { CompanyDetailsValues } from "@/types/company-details";
+import { useReactToPrint } from "react-to-print";
+import AddDiscountFnBIndvSales from "./AddDiscountFnBIndvSales";
+import FnBIndvSalesPay from "@/components/input/FnBIndvSalesPay";
 
-interface TableToPayDataProps {
-  tableName: string;
-  timeRate: string;
-  initialValue: TableSalesAllValues;
+interface FnBIndividualProps {
+  FnBIndvSales: FnBSalesIndvidual;
 }
 
-const FormToPay: FC<TableToPayDataProps> = ({
-  tableName,
-  timeRate,
-  initialValue,
-}) => {
+const FormFnBIndvSales: FC<FnBIndividualProps> = ({ FnBIndvSales }) => {
   // print receipt
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
@@ -45,11 +38,13 @@ const FormToPay: FC<TableToPayDataProps> = ({
     });
 
   // get fnb sales list
-  const { data: fnBSalesData, isLoading } = useQuery<foodBeveragePayValues[]>({
+  const { data: fnBSalesData, isLoading: fnBSalesLoading } = useQuery<
+    foodBeveragePayValues[]
+  >({
     queryKey: ["fnbSales"],
     queryFn: async () => {
       const response = await axios.get(
-        `/api/open_mode/fnbSales/${initialValue.id}`
+        `/api/open_mode/fnbSales/individual/${FnBIndvSales.id}`
       );
       return response.data;
     },
@@ -61,8 +56,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
         <span className="loading loading-ring loading-lg mx-auto"></span>
       </div>
     );
-  }
-  if (isLoading) {
+  } else if (fnBSalesLoading) {
     return (
       <div className="flex">
         <span className="loading loading-ring loading-lg mx-auto"></span>
@@ -71,10 +65,7 @@ const FormToPay: FC<TableToPayDataProps> = ({
   }
 
   return (
-    <div className="p-4 space-y-4">
-      <div>
-        <h2 className="text-xl font-semibold">{tableName}</h2>
-      </div>
+    <div>
       <div className="space-y-4">
         <div ref={componentRef} className="p-2 text-xs font-mono">
           <div className="border-b border-dashed border-black py-4"></div>
@@ -90,68 +81,43 @@ const FormToPay: FC<TableToPayDataProps> = ({
           </div>
           <div className="px-2">
             <div className="pt-4">
-              <h2>Invoice No - 000100{initialValue.id}</h2>
+              <h2>Invoice No - FnB-000{FnBIndvSales.id}</h2>
               <h2>{format(new Date(), "dd/LL/yyyy HH:mm:ss")}</h2>
             </div>
+          </div>
+          <div className="pt-6">
+            <h2 className="uppercase">Transaction Details</h2>
+          </div>
+          <div className="pt-4">
+            {fnBSalesData == undefined ? (
+              <h2 className="uppercase">&#91;Food &#38; Beverage&#93;</h2>
+            ) : (
+              ""
+            )}
             <div className="pt-2">
-              <h2>Table No &#69706; {initialValue.Table.name}</h2>
-            </div>
-            <div className="pt-6">
-              <h2 className="uppercase">Transaction Details</h2>
-            </div>
-            <div className="pt-2">
-              <h2 className="uppercase">&#91;Snooker&#93;</h2>
-              <h2>Rate &#61; {initialValue.salesRate} &#92; 60 min</h2>
-            </div>
-            <div className="pt-2">
-              <h2 className="uppercase">&#91;Snooker&#93;</h2>
-              <h2>
-                {format(initialValue.createdAt, "HH:mm")} &#8210;{" "}
-                {format(initialValue.tableStopTime, "HH:mm")}&nbsp; &#61;
-                0&#69706;{initialValue.timeSpend}
-              </h2>
-            </div>
-            <div className="pt-2">
-              <h2 className="flex">
-                Total Amount
-                <span className="ms-auto">{initialValue.tableRateSales}</span>
-              </h2>
-            </div>
-            <div className="pt-4">
-              {fnBSalesData == undefined ? (
-                <h2 className="uppercase">&#91;Food &#38; Beverage&#93;</h2>
-              ) : (
-                ""
-              )}
-              <div className="pt-2">
-                {fnBSalesData?.map((fnbPay) => (
-                  <div key={fnbPay.id} className="pb-2">
-                    <h2 className="flex">
-                      {fnbPay.FoodBeverage.name} &#61;
-                      <span className="ms-auto">
-                        {fnbPay.FoodBeverage.price}
-                      </span>
-                    </h2>
-                    <h2 className="flex">
-                      &#10761;{fnbPay.amount} &#61;{" "}
-                      <span className="ms-auto">RM {fnbPay.totalFnBSales}</span>
-                    </h2>
-                  </div>
-                ))}
-              </div>
+              {fnBSalesData?.map((fnbPay) => (
+                <div key={fnbPay.id} className="pb-2">
+                  <h2 className="flex">{fnbPay.FoodBeverage.name}</h2>
+                  <h2 className="flex">
+                    RM {fnbPay.FoodBeverage.price} &#10761; {fnbPay.amount}{" "}
+                    &#61;{" "}
+                    <span className="ms-auto">RM {fnbPay.totalFnBSales}</span>
+                  </h2>
+                </div>
+              ))}
             </div>
             <div className="pt-4 space-y-2">
               <h2>
-                {initialValue.totalBeforeDiscount} &#45; &#91;DIS&#93;
-                {initialValue.discount} &#61;
+                {FnBIndvSales.totalBeforeDiscount} &#45; &#91;DIS&#93;
+                {FnBIndvSales.discount} &#61;
               </h2>
-              <h2 className="text-end">RM {initialValue.totalTableSales}</h2>
+              <h2 className="text-end">RM {FnBIndvSales.totalIndvFnBSales}</h2>
             </div>
             <div className="border-b-2 border-dashed border-black py-4"></div>
           </div>
           <div className="text-lg pt-4 flex">
             <h1>Total</h1>
-            <h1 className="mx-auto">{initialValue.totalTableSales}</h1>
+            <h1 className="mx-auto">{FnBIndvSales.totalIndvFnBSales}</h1>
           </div>
           <div className="capitalize text-center pt-10">
             <h1>Thank You For Visit</h1>
@@ -168,9 +134,9 @@ const FormToPay: FC<TableToPayDataProps> = ({
         <div className="divider"></div>
         <div className="flex justify-between items-center">
           <h2 className="text-lg">Discount Given</h2>
-          <AddDiscount
-            tableSalesId={initialValue.id}
-            tableDiscount={initialValue.discount}
+          <AddDiscountFnBIndvSales
+            FnBIndvSalesId={FnBIndvSales.id}
+            FnBIndvSalesDiscount={FnBIndvSales.discount}
           />
         </div>
         <div className="flex justify-between items-center">
@@ -178,18 +144,18 @@ const FormToPay: FC<TableToPayDataProps> = ({
           <h2 className="flex text-2xl font-semibold">
             RM
             <span className="w-36 text-end ms-2 px-4">
-              {initialValue.totalTableSales}
+              {FnBIndvSales.totalIndvFnBSales}
             </span>
           </h2>
         </div>
       </div>
       <div className="divider"></div>
-      <CustomerPay
-        tableSalesId={initialValue.id}
-        totalTableSales={initialValue.totalTableSales}
+      <FnBIndvSalesPay
+        FnBIndvSalesId={FnBIndvSales.id}
+        FnBIndvTotalSales={FnBIndvSales.totalIndvFnBSales}
       />
     </div>
   );
 };
 
-export default FormToPay;
+export default FormFnBIndvSales;

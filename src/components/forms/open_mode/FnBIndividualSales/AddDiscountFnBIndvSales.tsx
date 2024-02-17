@@ -1,21 +1,24 @@
 import axios, { AxiosError } from "axios";
-import { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface addDiscountProps {
-  tableSalesId: number;
-  tableDiscount: string;
+  FnBIndvSalesId: number;
+  FnBIndvSalesDiscount: string;
 }
 type DiscountValues = {
-  tableSalesId: number;
-  discount: string;
+  FnBIndvSalesId: number;
+  FnBIndvSalesDiscount: string;
 };
 
-const AddDiscount: FC<addDiscountProps> = ({ tableSalesId, tableDiscount }) => {
+const AddDiscountFnBIndvSales: FC<addDiscountProps> = ({
+  FnBIndvSalesId,
+  FnBIndvSalesDiscount,
+}) => {
   // set formdata
   const [formData, setFormData] = useState<DiscountValues>({
-    tableSalesId: tableSalesId,
-    discount: tableDiscount,
+    FnBIndvSalesId: FnBIndvSalesId,
+    FnBIndvSalesDiscount: FnBIndvSalesDiscount,
   });
 
   // handlesubmit
@@ -35,20 +38,22 @@ const AddDiscount: FC<addDiscountProps> = ({ tableSalesId, tableDiscount }) => {
   const onSubmit: SubmitHandler<DiscountValues> = async (
     formData: DiscountValues
   ) => {
-    formData.tableSalesId = tableSalesId;
-    formData.discount = parseFloat(formData.discount).toFixed(2);
+    formData.FnBIndvSalesId = FnBIndvSalesId;
+    formData.FnBIndvSalesDiscount = parseFloat(
+      formData.FnBIndvSalesDiscount
+    ).toFixed(2);
 
     // console.log(formData);
 
     try {
       const response = await axios.put(
-        "/api/open_mode/tableSales/payDiscount",
+        "/api/open_mode/fnbSales/individual",
         formData
       );
       if (response.status === 200) {
         setFormData({
-          tableSalesId: tableSalesId,
-          discount: tableDiscount,
+          FnBIndvSalesId: FnBIndvSalesId,
+          FnBIndvSalesDiscount: FnBIndvSalesDiscount,
         });
         alert("discount Added.");
         location.reload();
@@ -70,13 +75,13 @@ const AddDiscount: FC<addDiscountProps> = ({ tableSalesId, tableDiscount }) => {
         <div className="flex items-center space-x-2">
           <h2 className="text-2xl font-semibold">RM</h2>
           <input
-            {...register("discount")}
-            name="discount"
+            {...register("FnBIndvSalesDiscount")}
+            name="FnBIndvSalesDiscount"
             type="number"
             min={0}
             placeholder="Discount Given (RM)"
             className="input input-bordered rounded-sm text-center w-36"
-            value={formData.discount}
+            value={formData.FnBIndvSalesDiscount}
             onChange={handleChange}
           />
         </div>
@@ -85,4 +90,4 @@ const AddDiscount: FC<addDiscountProps> = ({ tableSalesId, tableDiscount }) => {
   );
 };
 
-export default AddDiscount;
+export default AddDiscountFnBIndvSales;

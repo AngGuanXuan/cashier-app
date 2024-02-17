@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import GetOperateTimer from "@/components/getdata/GetOperateTimer";
 import EndOperateBtn from "@/components/buttons/open_mode/EndOperateBtn";
+import AddFnB_Individual from "@/components/forms/open_mode/AddFnB_Individual";
+import StartFnB_Individual from "@/components/forms/open_mode/table/StartFnB_Individual";
 
 const OpenMode = () => {
   const router = useRouter();
@@ -19,7 +21,22 @@ const OpenMode = () => {
     },
   });
 
+  // get fnb sales Individual list
+  const { data: fnBSalesIndvData, isLoading: fnBIndLoading } = useQuery({
+    queryKey: ["fnbSalesIndividual"],
+    queryFn: async () => {
+      const response = await axios.get("/api/open_mode/fnbSales/individual");
+      return response.data;
+    },
+  });
+
   if (isLoading) {
+    return (
+      <div className="flex min-h-screen">
+        <span className="loading loading-ring loading-lg m-auto"></span>
+      </div>
+    );
+  } else if (fnBIndLoading) {
     return (
       <div className="flex min-h-screen">
         <span className="loading loading-ring loading-lg m-auto"></span>
@@ -47,18 +64,15 @@ const OpenMode = () => {
                   <div className="text-center">
                     <GetOperateTimer timeData={timeData} />
                   </div>
-                  <div className="flex flex-col space-y-2">
-                    <label>Note</label>
-                    <TextareaAutosize
-                      name="note"
-                      minRows={3}
-                      className="textarea textarea-bordered text-black"
-                      placeholder="note"
-                    />
-                  </div>
                 </div>
               </div>
-              <div></div>
+              <div className="px-4">
+                {fnBSalesIndvData ? (
+                  <AddFnB_Individual initialValue={fnBSalesIndvData} />
+                ) : (
+                  <StartFnB_Individual />
+                )}
+              </div>
             </div>
           </div>
         </div>

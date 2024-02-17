@@ -13,7 +13,7 @@ export async function GET(req: Request, context: ContextProps) {
 
         const fnBSales = await prisma.fnBSales.findMany({
             where: {
-                tableSalesId: parseInt(params.id),
+                fnBSalesIndvidualId: parseInt(params.id),
             },
             include: {
                 FoodBeverage: true,
@@ -51,54 +51,54 @@ export async function POST(req: Request, context: ContextProps) {
 
         const fnBSales = await prisma.fnBSales.create({
             data: {
-                tableSalesId: parseInt(params.id),
-                foodBeverageId: parseInt(foodBeverageId), 
+                fnBSalesIndvidualId: parseInt(params.id),
+                foodBeverageId: parseInt(foodBeverageId),
                 amount: parseInt(amount),
                 totalFnBSales: unitFnBSales.toFixed(2).toString(),
-            },
+            }
         });
 
-        // get total fnb sales from table sales
-        const tableSales = await prisma.tableSales.findFirst({
+        // get fnb Individual ori total price
+        const oriTotalFnBIndvPrice = await prisma.fnBSalesIndvidual.findUnique({
             where: { 
                 id: parseInt(params.id),
             },
             select: {
-                totalFnBSales: true
+                totalBeforeDiscount: true,
+                totalIndvFnBSales: true,
             }
         });
 
-        // if total fnb sales not exist
-        if(!tableSales) {
-            return NextResponse.json({foodBeverage: null, message: "fnb sales not exist"}, {status: 409});
+        // if price not exist
+        if(!oriTotalFnBIndvPrice) {
+            return NextResponse.json({foodBeverage: null, message: "total price not exist"}, {status: 409});
         };
+        const oriUnitFnBIndvSales = parseFloat(oriTotalFnBIndvPrice.totalBeforeDiscount);
 
-        const oriTotalfnbSales = parseFloat(tableSales.totalFnBSales);
-        const totalFnBSales = oriTotalfnbSales + unitFnBSales;
+        const updatedUnitFnBIndvSales = oriUnitFnBIndvSales + unitFnBSales;
 
-        const updateTotalFnBSales = await prisma.tableSales.update({
+
+        const fnBSalesIndvidual = await prisma.fnBSalesIndvidual.update({
             where: { 
                 id: parseInt(params.id),
             },
             data: {
-                totalFnBSales: totalFnBSales.toFixed(2).toString(),
+                totalBeforeDiscount: updatedUnitFnBIndvSales.toFixed(2).toString(),
+                totalIndvFnBSales: updatedUnitFnBIndvSales.toFixed(2).toString(),
             },
         });
 
-
-        return NextResponse.json({fnBSales: fnBSales, tableSales: updateTotalFnBSales}, { status: 200})
-
+        return NextResponse.json({fnBSales: fnBSales , fnBSalesIndvidual: fnBSalesIndvidual}, { status: 200});
     }
-    catch(error) {
-        return NextResponse.json({ message: 'Something went wrong!'}, { status: 500 })
+    catch(error){
+        return NextResponse.json({message: "Something went wrong!"}, {status: 500});
     }
-    
 }
 
 export async function PUT(req: Request, context: ContextProps) {
     try{
         const {params} = context;
-        const { amount , totalFnBSales , tableSalesId } = await req.json();
+        const { amount , totalFnBSales , FnBIndvSalesId } = await req.json();
 
         // get fnb ori total price
         const oriTotalFnBPrice = await prisma.fnBSales.findUnique({
@@ -117,29 +117,31 @@ export async function PUT(req: Request, context: ContextProps) {
         const oriUnitFnBSales = parseFloat(oriTotalFnBPrice.totalFnBSales);
 
         // get total fnb sales from table sales
-        const tableSales = await prisma.tableSales.findFirst({
+        const FnBIndividualSales = await prisma.fnBSalesIndvidual.findFirst({
             where: { 
-                id: parseInt(tableSalesId),
+                id: parseInt(FnBIndvSalesId),
             },
             select: {
-                totalFnBSales: true
+                totalBeforeDiscount: true,
+                totalIndvFnBSales: true,
             }
         });
 
-        // if total fnb sales not exist
-        if(!tableSales) {
-            return NextResponse.json({foodBeverage: null, message: "table total fnb sales not exist"}, {status: 409});
+        // if total fnb Individual sales not exist
+        if(!FnBIndividualSales) {
+            return NextResponse.json({foodBeverage: null, message: "FnB Individual total fnb sales not exist"}, {status: 409});
         };
 
-        const oriTotalfnbSales = parseFloat(tableSales.totalFnBSales);
-        const beforeUpdateTotalFnBSales = oriTotalfnbSales - oriUnitFnBSales;
+        const oriTotalfnbIndividualSales = parseFloat(FnBIndividualSales.totalBeforeDiscount);
+        const beforeUpdateTotalFnBIndvSales = oriTotalfnbIndividualSales - oriUnitFnBSales;
 
-        const updateDeductTotalFnBSales = await prisma.tableSales.update({
+        const updateDeductTotalFnBIndvSales = await prisma.fnBSalesIndvidual.update({
             where: { 
-                id: parseInt(tableSalesId),
+                id: parseInt(FnBIndvSalesId),
             },
             data: {
-                totalFnBSales: beforeUpdateTotalFnBSales.toFixed(2).toString(),
+                totalBeforeDiscount: beforeUpdateTotalFnBIndvSales.toFixed(2).toString(),
+                totalIndvFnBSales: beforeUpdateTotalFnBIndvSales.toFixed(2).toString(),
             },
         });
 
@@ -153,20 +155,21 @@ export async function PUT(req: Request, context: ContextProps) {
             },
         });
 
-        const UpdatedTotalFnBSales =  beforeUpdateTotalFnBSales + parseFloat(totalFnBSales);
+        const UpdatedTotalFnBIndvSales =  beforeUpdateTotalFnBIndvSales + parseFloat(totalFnBSales);
 
 
-        const updateNewTotalFnBSales = await prisma.tableSales.update({
+        const updateNewTotalFnBIndvSales = await prisma.fnBSalesIndvidual.update({
             where: { 
-                id: parseInt(tableSalesId),
+                id: parseInt(FnBIndvSalesId),
             },
             data: {
-                totalFnBSales: UpdatedTotalFnBSales.toFixed(2).toString(),
+                totalBeforeDiscount: UpdatedTotalFnBIndvSales.toFixed(2).toString(),
+                totalIndvFnBSales: UpdatedTotalFnBIndvSales.toFixed(2).toString(),
             },
         });
         
 
-        return NextResponse.json({tableSales: updateDeductTotalFnBSales , fnBSales: fnBSales , updateNewTotalFnBSales}, { status: 200})
+        return NextResponse.json({fnBSalesIndvidual: updateDeductTotalFnBIndvSales , fnBSales: fnBSales , updateNewTotalFnBIndvSales}, { status: 200})
 
     }
     catch(error) {
@@ -185,7 +188,7 @@ export async function DELETE(req: Request, context: ContextProps) {
                 id: parseInt(params.id),
             },
             select: {
-                tableSalesId: true,
+                fnBSalesIndvidualId: true,
                 totalFnBSales: true
             }
         });
@@ -196,36 +199,38 @@ export async function DELETE(req: Request, context: ContextProps) {
         };
 
         const unitTotalFnBSales = parseFloat(unitTotalFnBPrice.totalFnBSales);
-        let getTableSalesId = unitTotalFnBPrice?.tableSalesId;
+        let getFnBSalesIndvidualId = unitTotalFnBPrice?.fnBSalesIndvidualId;
 
-        if(getTableSalesId == null) {
-            getTableSalesId = 0;
+        if(getFnBSalesIndvidualId == null) {
+            getFnBSalesIndvidualId = 0;
         }
 
-        // get total fnb sales from table sales
-        const tableSales = await prisma.tableSales.findFirst({
+        // get total fnb sales from fnb Individual sales
+        const tableSales = await prisma.fnBSalesIndvidual.findFirst({
             where: { 
-                id: getTableSalesId,
+                id: getFnBSalesIndvidualId,
             },
             select: {
-                totalFnBSales: true
+                totalBeforeDiscount: true,
+                totalIndvFnBSales: true,
             }
         });
 
-        // if total fnb sales not exist
+        // if total fnb Individual sales not exist
         if(!tableSales) {
             return NextResponse.json({foodBeverage: null, message: "table total fnb sales not exist"}, {status: 409});
         };
 
-        const beforeTotalFnBSales = parseFloat(tableSales.totalFnBSales);
-        const newTotalFnBSales = beforeTotalFnBSales - unitTotalFnBSales;
+        const beforeTotalFnBIndvSales = parseFloat(tableSales.totalBeforeDiscount);
+        const newTotalFnBIndvSales = beforeTotalFnBIndvSales - unitTotalFnBSales;
 
-        const updatedTotalFnBSales = await prisma.tableSales.update({
+        const updatedTotalFnBIndvSales = await prisma.fnBSalesIndvidual.update({
             where: { 
-                id: getTableSalesId,
+                id: getFnBSalesIndvidualId,
             },
             data: {
-                totalFnBSales: newTotalFnBSales.toFixed(2).toString(),
+                totalBeforeDiscount: newTotalFnBIndvSales.toFixed(2).toString(),
+                totalIndvFnBSales: newTotalFnBIndvSales.toFixed(2).toString(),
             },
         });
 
@@ -235,7 +240,7 @@ export async function DELETE(req: Request, context: ContextProps) {
             }
         });
 
-        updatedTotalFnBSales;
+        updatedTotalFnBIndvSales;
 
         return new Response(null, {status: 204})
     }

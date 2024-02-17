@@ -126,17 +126,18 @@ model FnBCategory {
 }
 
 model OperateTime {
-  id              Int          @id @default(autoincrement())
-  mode            String
-  Rate            Rate?        @relation(fields: [rateId], references: [id])
-  rateId          Int?
-  TableSales      TableSales[]
-  totalTableSales String
-  totalFnBSales   String
-  TotalDiscount   String
-  totalDaySales   String
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id                Int                 @id @default(autoincrement())
+  mode              String
+  Rate              Rate?               @relation(fields: [rateId], references: [id])
+  rateId            Int?
+  TableSales        TableSales[]
+  FnBSalesIndvidual FnBSalesIndvidual[]
+  totalTableSales   String
+  totalFnBSales     String
+  TotalDiscount     String
+  totalDaySales     String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 }
 
 model TableSales {
@@ -153,8 +154,23 @@ model TableSales {
   tableRateSales      String
   totalFnBSales       String
   totalBeforeDiscount String
-  totalTableSales     String
   discount            String
+  totalTableSales     String
+  customerPay         String
+  balance             String
+  paid                Boolean      @default(false)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+}
+
+model FnBSalesIndvidual {
+  id                  Int          @id @default(autoincrement())
+  FnBSales            FnBSales[]
+  OperateTime         OperateTime? @relation(fields: [operateTimeId], references: [id])
+  operateTimeId       Int?
+  totalBeforeDiscount String
+  discount            String
+  totalIndvFnBSales   String
   customerPay         String
   balance             String
   paid                Boolean      @default(false)
@@ -163,13 +179,15 @@ model TableSales {
 }
 
 model FnBSales {
-  id             Int           @id @default(autoincrement())
-  TableSales     TableSales?   @relation(fields: [tableSalesId], references: [id])
-  tableSalesId   Int?
-  FoodBeverage   FoodBeverage? @relation(fields: [foodBeverageId], references: [id])
-  foodBeverageId Int?
-  amount         Int
-  totalFnBSales  String
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id                  Int                @id @default(autoincrement())
+  TableSales          TableSales?        @relation(fields: [tableSalesId], references: [id])
+  tableSalesId        Int?
+  FnBSalesIndvidual   FnBSalesIndvidual? @relation(fields: [fnBSalesIndvidualId], references: [id])
+  fnBSalesIndvidualId Int?
+  FoodBeverage        FoodBeverage?      @relation(fields: [foodBeverageId], references: [id])
+  foodBeverageId      Int?
+  amount              Int
+  totalFnBSales       String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 }
