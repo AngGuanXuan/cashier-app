@@ -70,7 +70,7 @@ const GetOperateTimer: FC<timeDataProps> = ({ timeData }) => {
       </div>
       <div>
         <span className="text-neutral-300">Current Rate: </span> RM
-        {curTime <= 17 && curTime >= 6
+        {curTime < 17 && curTime > 6
           ? timeData.Rate.ratebefore5
           : timeData.Rate.rateafter5}
       </div>
