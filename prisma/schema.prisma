@@ -131,6 +131,7 @@ model OperateTime {
   Rate              Rate?               @relation(fields: [rateId], references: [id])
   rateId            Int?
   TableSales        TableSales[]
+  FnBSales          FnBSales[]
   FnBSalesIndvidual FnBSalesIndvidual[]
   totalTableSales   String
   totalFnBSales     String
@@ -180,6 +181,8 @@ model FnBSalesIndvidual {
 
 model FnBSales {
   id                  Int                @id @default(autoincrement())
+  OperateTime         OperateTime?       @relation(fields: [operateTimeId], references: [id])
+  operateTimeId       Int?
   TableSales          TableSales?        @relation(fields: [tableSalesId], references: [id])
   tableSalesId        Int?
   FnBSalesIndvidual   FnBSalesIndvidual? @relation(fields: [fnBSalesIndvidualId], references: [id])

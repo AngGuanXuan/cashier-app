@@ -75,6 +75,7 @@ export async function POST(req: Request) {
 
         const fnBSales = await prisma.fnBSales.create({
             data: {
+                operateTimeId: opTimeId,
                 fnBSalesIndvidualId: fnBSalesIndvidualCount + 1,
                 foodBeverageId: parseInt(foodBeverageId),
                 amount: parseInt(amount),

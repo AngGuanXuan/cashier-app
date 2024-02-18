@@ -49,21 +49,13 @@ export async function POST(req: Request, context: ContextProps) {
 
         const unitFnBSales = parseInt(amount) * parseFloat(fnbPrice.price);
 
-        const fnBSales = await prisma.fnBSales.create({
-            data: {
-                fnBSalesIndvidualId: parseInt(params.id),
-                foodBeverageId: parseInt(foodBeverageId),
-                amount: parseInt(amount),
-                totalFnBSales: unitFnBSales.toFixed(2).toString(),
-            }
-        });
-
         // get fnb Individual ori total price
         const oriTotalFnBIndvPrice = await prisma.fnBSalesIndvidual.findUnique({
             where: { 
                 id: parseInt(params.id),
             },
             select: {
+                operateTimeId: true,
                 totalBeforeDiscount: true,
                 totalIndvFnBSales: true,
             }
@@ -74,6 +66,7 @@ export async function POST(req: Request, context: ContextProps) {
             return NextResponse.json({foodBeverage: null, message: "total price not exist"}, {status: 409});
         };
         const oriUnitFnBIndvSales = parseFloat(oriTotalFnBIndvPrice.totalBeforeDiscount);
+        const opTimeId = oriTotalFnBIndvPrice.operateTimeId;
 
         const updatedUnitFnBIndvSales = oriUnitFnBIndvSales + unitFnBSales;
 
@@ -86,6 +79,16 @@ export async function POST(req: Request, context: ContextProps) {
                 totalBeforeDiscount: updatedUnitFnBIndvSales.toFixed(2).toString(),
                 totalIndvFnBSales: updatedUnitFnBIndvSales.toFixed(2).toString(),
             },
+        });
+
+        const fnBSales = await prisma.fnBSales.create({
+            data: {
+                operateTimeId: opTimeId,
+                fnBSalesIndvidualId: parseInt(params.id),
+                foodBeverageId: parseInt(foodBeverageId),
+                amount: parseInt(amount),
+                totalFnBSales: unitFnBSales.toFixed(2).toString(),
+            }
         });
 
         return NextResponse.json({fnBSales: fnBSales , fnBSalesIndvidual: fnBSalesIndvidual}, { status: 200});

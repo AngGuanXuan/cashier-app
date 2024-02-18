@@ -2,8 +2,12 @@ import Link from "next/link";
 import React from "react";
 import SignOutBtn from "../userAccounts/SignOutBtn";
 import StartOperateBtn from "../buttons/open_mode/StartOperateBtn";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const Header = async () => {
+  const session = await getServerSession(authOptions);
+
   return (
     <header>
       <div className="navbar bg-base-100">
@@ -61,9 +65,16 @@ const Header = async () => {
                   </li>
                 </ul>
               </li>
+              {session?.user.email == "lccl.enterprise@gmail.com" ? (
+                <li>
+                  <Link href="/reports">Reports</Link>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
-          <div className="space-x-4">
+          <div className="space-x-4 lg:block flex">
             <Link
               href="/admin"
               className="btn btn-ghost text-xl uppercase font-bold"
@@ -111,6 +122,13 @@ const Header = async () => {
                 </ul>
               </details>
             </li>
+            {session?.user.email == "lccl.enterprise@gmail.com" ? (
+              <li>
+                <Link href="/reports">Reports</Link>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
         <div className="navbar-end">

@@ -2,20 +2,22 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IoIosPrint } from "react-icons/io";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { format } from "date-fns";
 import { CompanyDetailsValues } from "@/types/company-details";
-
-type TotalSalesValues = {
-  totalTableSales: string;
-  totalFnBSales: string;
-  TotalDiscount: string;
-  totalDaySales: string;
-  updatedAt: Date;
-};
+import FoodBeverageSalesDetails from "./FoodBeverageSalesDetails";
+import { OperateTime } from "@prisma/client";
+import FnBDetailsReceipt from "./FnBDetailsReceipt";
 
 const PrintTotalSalesToday = () => {
+  const [accordionOpen, setAccordionOpen] = useState<boolean>(true);
+
+  // accordion open close
+  const openAccordion = () => {
+    accordionOpen ? setAccordionOpen(false) : setAccordionOpen(true);
+  };
+
   // get company data
   const { data: companydata, isLoading: companyDataLoading } =
     useQuery<CompanyDetailsValues>({
@@ -26,8 +28,8 @@ const PrintTotalSalesToday = () => {
       },
     });
 
-  // get data
-  const { data: totalSalesdata, isLoading } = useQuery<TotalSalesValues>({
+  // get total sales data
+  const { data: totalSalesdata, isLoading } = useQuery<OperateTime>({
     queryKey: ["totalSales"],
     queryFn: async () => {
       const response = await axios.get("/api/totalSalesPerDay");
@@ -69,41 +71,13 @@ const PrintTotalSalesToday = () => {
         <h2 className="text-neutral-600 font-semibold">
           Last Updated&#58; &nbsp;
           {format(
-            totalSalesdata?.updatedAt
-              ? totalSalesdata?.updatedAt
-              : "2022-01-14 18:13:00",
+            totalSalesdata?.updatedAt ? totalSalesdata?.updatedAt : "no time",
             "dd/LL/yyyy HH:mm:ss"
           )}
         </h2>
       </div>
       <div className="flex flex-row space-x-4">
-        <div className="card border-2 border-neutral w-1/4">
-          <div className="card-body space-y-2">
-            <div>
-              <h2 className="card-title">Total Table Today</h2>
-            </div>
-            <div className="flex items-end !mt-auto space-x-2">
-              <span className="text-sm text-neutral-400">RM</span>
-              <h1 className="text-3xl font-semibold">
-                {totalSalesdata?.totalTableSales}
-              </h1>
-            </div>
-          </div>
-        </div>
-        <div className="card border-2 border-success w-1/4">
-          <div className="card-body space-y-2">
-            <div>
-              <h2 className="card-title">Total Food &amp; Beverage Today</h2>
-            </div>
-            <div className="flex items-end !mt-auto space-x-2">
-              <span className="text-sm text-neutral-400">RM</span>
-              <h1 className="text-3xl font-semibold">
-                {totalSalesdata?.totalFnBSales}
-              </h1>
-            </div>
-          </div>
-        </div>
-        <div className="card border-2 border-neutral w-1/4">
+        <div className="card shadow border-2 border-neutral/50 w-1/4">
           <div className="card-body space-y-2">
             <div>
               <h2 className="card-title">Total Sales Today</h2>
@@ -116,7 +90,33 @@ const PrintTotalSalesToday = () => {
             </div>
           </div>
         </div>
-        <div className="card border border-neutral w-1/4">
+        <div className="card shadow border border-neutral/50 w-1/4">
+          <div className="card-body space-y-2">
+            <div>
+              <h2 className="card-title">Total Table Today</h2>
+            </div>
+            <div className="flex items-end !mt-auto space-x-2">
+              <span className="text-sm text-neutral-400">RM</span>
+              <h1 className="text-3xl font-semibold">
+                {totalSalesdata?.totalTableSales}
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="card shadow border border-neutral/50 w-1/4">
+          <div className="card-body space-y-2">
+            <div>
+              <h2 className="card-title">Total Food &amp; Beverage Today</h2>
+            </div>
+            <div className="flex items-end !mt-auto space-x-2">
+              <span className="text-sm text-neutral-400">RM</span>
+              <h1 className="text-3xl font-semibold">
+                {totalSalesdata?.totalFnBSales}
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="card shadow border border-neutral/50 w-1/4">
           <div className="card-body space-y-2">
             <div>
               <h2 className="card-title">Total Discount Given Today</h2>
@@ -126,6 +126,30 @@ const PrintTotalSalesToday = () => {
               <h1 className="text-3xl font-semibold">
                 {totalSalesdata?.TotalDiscount}
               </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="py-10">
+        <div>
+          <h2 className="text-neutral-600 font-semibold">
+            Food &amp; Beverage Sales Details
+          </h2>
+        </div>
+        <div>
+          <div
+            className={`${
+              accordionOpen ? "collapse-open" : "collapse"
+            } collapse-arrow bg-base-200 cursor-pointer select-none`}
+            onClick={openAccordion}
+          >
+            <div className="collapse-title text-xl font-medium">
+              Check Food &amp; Beverage Sales Details
+            </div>
+            <div className="collapse-content">
+              <FoodBeverageSalesDetails
+                opTimeId={totalSalesdata?.id ? totalSalesdata?.id : 1}
+              />
             </div>
           </div>
         </div>
@@ -162,6 +186,14 @@ const PrintTotalSalesToday = () => {
           <div className="pt-2">
             <h2>Total Food &amp; Beverage Sales Today &#69706;</h2>
             <p>RM {totalSalesdata?.totalFnBSales}</p>
+          </div>
+          <div className="pt-2">
+            <h2>In Details &#69706;</h2>
+            <div className="ps-2">
+              <FnBDetailsReceipt
+                opTimeId={totalSalesdata?.id ? totalSalesdata?.id : 1}
+              />
+            </div>
           </div>
           <div className="pt-2">
             <h2>Total Sales Today &#69706;</h2>

@@ -49,22 +49,14 @@ export async function POST(req: Request, context: ContextProps) {
 
         const unitFnBSales = parseInt(amount) * parseFloat(fnbPrice.price);
 
-        const fnBSales = await prisma.fnBSales.create({
-            data: {
-                tableSalesId: parseInt(params.id),
-                foodBeverageId: parseInt(foodBeverageId), 
-                amount: parseInt(amount),
-                totalFnBSales: unitFnBSales.toFixed(2).toString(),
-            },
-        });
-
         // get total fnb sales from table sales
         const tableSales = await prisma.tableSales.findFirst({
             where: { 
                 id: parseInt(params.id),
             },
             select: {
-                totalFnBSales: true
+                totalFnBSales: true,
+                operateTimeId: true,
             }
         });
 
@@ -75,6 +67,7 @@ export async function POST(req: Request, context: ContextProps) {
 
         const oriTotalfnbSales = parseFloat(tableSales.totalFnBSales);
         const totalFnBSales = oriTotalfnbSales + unitFnBSales;
+        const opTimeId = tableSales.operateTimeId;
 
         const updateTotalFnBSales = await prisma.tableSales.update({
             where: { 
@@ -85,6 +78,15 @@ export async function POST(req: Request, context: ContextProps) {
             },
         });
 
+        const fnBSales = await prisma.fnBSales.create({
+            data: {
+                operateTimeId: opTimeId,
+                tableSalesId: parseInt(params.id),
+                foodBeverageId: parseInt(foodBeverageId), 
+                amount: parseInt(amount),
+                totalFnBSales: unitFnBSales.toFixed(2).toString(),
+            },
+        });
 
         return NextResponse.json({fnBSales: fnBSales, tableSales: updateTotalFnBSales}, { status: 200})
 
