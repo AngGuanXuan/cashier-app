@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/modal/Modal";
 import FormEditFoodBeverage from "@/components/forms/foodBeverage/FormEditFoodBeverage";
 import { useQuery } from "@tanstack/react-query";

@@ -71,7 +71,7 @@ const PrintTotalSalesToday = () => {
         <h2 className="text-neutral-600 font-semibold">
           Last Updated&#58; &nbsp;
           {format(
-            totalSalesdata?.updatedAt ? totalSalesdata?.updatedAt : "no time",
+            totalSalesdata?.updatedAt ? totalSalesdata?.updatedAt : new Date(),
             "dd/LL/yyyy HH:mm:ss"
           )}
         </h2>

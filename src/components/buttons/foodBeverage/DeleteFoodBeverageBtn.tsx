@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/modal/Modal";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";

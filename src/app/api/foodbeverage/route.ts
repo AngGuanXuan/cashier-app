@@ -8,7 +8,7 @@ export async function GET() {
             id: true,
             name: true,
             price: true,
-            Category: true,
+            FnBCategory: true,
             createdAt: true,
             updatedAt: true,
            }
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             data: {
                 name, 
                 price, 
-                CategoryId: parseInt(CategoryId)
+                fnBCategoryId: parseInt(CategoryId)
             }
         });
 

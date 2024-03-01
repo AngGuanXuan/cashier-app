@@ -35,7 +35,7 @@ export async function PUT(req: Request, context: ContextProps) {
             data: {
                 name: name, 
                 price: price,
-                CategoryId: parseInt(CategoryId)
+                fnBCategoryId: parseInt(CategoryId)
             },
         });
 

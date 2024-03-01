@@ -1,30 +1,19 @@
-"use client";
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import prisma from "@/lib/db";
 import axios from "axios";
 import { format } from "date-fns";
-import { foodBeverageAllValues } from "@/types/foodBeverage/food-beverage-all";
 import DeleteFoodBeverageBtn from "../buttons/foodBeverage/DeleteFoodBeverageBtn";
 import EditFoodBeverageBtn from "../buttons/foodBeverage/EditFoodBeverageBtn";
 
-const ListofFnB = () => {
-  const { data: foodbeveragedata, isLoading } = useQuery<
-    foodBeverageAllValues[]
-  >({
-    queryKey: ["foodbeverage"],
-    queryFn: async () => {
-      const response = await axios.get("/api/foodbeverage");
-      return response.data;
+const ListofFnB = async () => {
+  // get data
+  const foodbeveragedata = await prisma.foodBeverage.findMany({
+    include: {
+      FnBCategory: true,
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex">
-        <span className="loading loading-ring loading-lg mx-auto"></span>
-      </div>
-    );
-  }
+  // console.log(foodbeveragedata);
 
   return (
     <div className="overflow-x-auto">
@@ -47,7 +36,7 @@ const ListofFnB = () => {
               <th>{fnb.id}</th>
               <th>{fnb.name}</th>
               <td>{fnb.price}</td>
-              <td>{fnb.Category.name}</td>
+              <td>{fnb.FnBCategory?.name}</td>
               <td>{format(fnb.createdAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td>{format(fnb.updatedAt, "dd/LL/yyyy HH:mm:ss")}</td>
               <td className="space-x-2">

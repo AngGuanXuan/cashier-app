@@ -15,6 +15,8 @@ const ListofRates = () => {
     },
   });
 
+  console.log("isLoading", ratedata);
+
   if (isLoading) {
     return (
       <div className="flex">

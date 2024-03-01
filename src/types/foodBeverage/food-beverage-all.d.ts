@@ -1,11 +1,11 @@
 export type foodBeverageAllValues = {
-    id:number;
-    name: string;
-    price: string;
-    Category: {
+    FnBCategory: {
         id:number;
         name: string;
     };
+    id:number;
+    name: string;
+    price: string;
     createdAt: DateTime;
     updatedAt: DateTime;
 }

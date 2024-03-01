@@ -19,9 +19,9 @@ const GetFnBSalesDetails: FC<FnBDetailsProps> = ({ fnbId, fnbAmount }) => {
 
   if (isLoading) {
     return (
-      <div className="flex">
+      <th className="flex">
         <span className="loading loading-ring loading-lg mx-auto"></span>
-      </div>
+      </th>
     );
   }
 

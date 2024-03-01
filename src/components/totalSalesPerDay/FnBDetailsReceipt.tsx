@@ -36,12 +36,12 @@ const FnBDetailsReceipt: FC<FnBSalesDetailsProps> = ({ opTimeId }) => {
   return (
     <div>
       {fnbSalesDetailsData?.map((fnbDetails) => (
-        <p key={fnbDetails.foodBeverageId}>
+        <span key={fnbDetails.foodBeverageId}>
           <GetFnBDetailsReceipt
             fnbId={fnbDetails.foodBeverageId}
             fnbAmount={fnbDetails._sum.amount}
           />
-        </p>
+        </span>
       ))}
     </div>
   );
