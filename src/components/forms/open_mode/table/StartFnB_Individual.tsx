@@ -30,6 +30,13 @@ const StartFnB_Individual = () => {
     });
   };
 
+  // get data
+  // const fnBData = await prisma.foodBeverage.findMany({
+  //   include: {
+  //     FnBCategory: true,
+  //   },
+  // });
+
   // get fnb list
   const { data: fnBData, isLoading: fnbDataLoading } = useQuery<
     foodBeverageAllValues[]
