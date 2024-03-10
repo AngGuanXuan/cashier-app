@@ -106,7 +106,7 @@ const StartFnB_Individual = () => {
                 </option>
                 {fnBData?.map((fnb) => (
                   <option key={fnb.id} value={fnb.id}>
-                    {fnb.name} - {fnb.FnBCategory.name} - {fnb.price}
+                    {fnb.name} - {fnb.FnBCategory?.name} - {fnb.price}
                   </option>
                 ))}
               </select>
