@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/layouts/Header";
 import { getServerSession } from "next-auth";
+import prisma from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import FormSelectRate from "@/components/forms/FormSelectRate";
 import PrintTotalSalesToday from "@/components/totalSalesPerDay/PrintTotalSalesToday";
@@ -9,6 +10,26 @@ import User from "@/components/User";
 const page = async () => {
   const session = await getServerSession(authOptions);
   // console.log(session);
+
+  // get company data
+  const companydata = await prisma.company.findFirst({
+    where: {
+      id: 1,
+    },
+    include: {
+      state: true,
+    },
+  });
+
+  // get total sales data
+  const totalSalesdata = await prisma.operateTime.findFirst({
+    where: {
+      mode: "closed",
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
 
   return (
     <>
@@ -60,7 +81,10 @@ const page = async () => {
             </div>
           </div>
           {session?.user.email == "lccl.enterprise@gmail.com" ? (
-            <PrintTotalSalesToday />
+            <PrintTotalSalesToday
+              companydata={companydata}
+              totalSalesdata={totalSalesdata}
+            />
           ) : (
             ""
           )}

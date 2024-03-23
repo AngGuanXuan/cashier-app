@@ -27,7 +27,7 @@ const FoodBeverageSalesDetails: FC<FnBSalesDetailsProps> = ({ opTimeId }) => {
     },
   });
 
-  console.log("isLoading", fnbSalesDetailsData);
+  // console.log("isLoading", fnbSalesDetailsData);
 
   if (fnbDetailsLoading) {
     return (

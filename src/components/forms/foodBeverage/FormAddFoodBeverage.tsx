@@ -47,7 +47,7 @@ const FormAddFoodBeverage: FC<ModalProps> = ({ setModalOpen }) => {
   const handleselectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setFormData({ ...formData, CategoryId: parseInt(value) });
-    console.log(value);
+    // console.log(value);
     formData.CategoryId = parseInt(value);
   };
 
@@ -66,7 +66,7 @@ const FormAddFoodBeverage: FC<ModalProps> = ({ setModalOpen }) => {
   const onSubmit: SubmitHandler<foodBeverageValues> = async (
     formData: foodBeverageValues
   ) => {
-    console.log(formData);
+    // console.log(formData);
     try {
       const response = await axios.post("/api/foodbeverage", formData);
       if (response.status === 200) {

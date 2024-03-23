@@ -15,7 +15,7 @@ const ListofRates = () => {
     },
   });
 
-  console.log("isLoading", ratedata);
+  // console.log("isLoading", ratedata);
 
   if (isLoading) {
     return (

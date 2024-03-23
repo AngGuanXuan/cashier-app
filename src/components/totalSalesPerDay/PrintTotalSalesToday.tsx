@@ -1,4 +1,5 @@
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IoIosPrint } from "react-icons/io";
@@ -10,7 +11,15 @@ import FoodBeverageSalesDetails from "./FoodBeverageSalesDetails";
 import { OperateTime } from "@prisma/client";
 import FnBDetailsReceipt from "./FnBDetailsReceipt";
 
-const PrintTotalSalesToday = () => {
+export interface receiptProps {
+  companydata: CompanyDetailsValues | null;
+  totalSalesdata: OperateTime | null;
+}
+
+const PrintTotalSalesToday = ({
+  companydata,
+  totalSalesdata,
+}: receiptProps) => {
   const [accordionOpen, setAccordionOpen] = useState<boolean>(true);
 
   // accordion open close
@@ -18,24 +27,24 @@ const PrintTotalSalesToday = () => {
     accordionOpen ? setAccordionOpen(false) : setAccordionOpen(true);
   };
 
-  // get company data
-  const { data: companydata, isLoading: companyDataLoading } =
-    useQuery<CompanyDetailsValues>({
-      queryKey: ["company"],
-      queryFn: async () => {
-        const response = await axios.get("/api/company");
-        return response.data;
-      },
-    });
+  // // get company data
+  // const { data: companydata, isLoading: companyDataLoading } =
+  //   useQuery<CompanyDetailsValues>({
+  //     queryKey: ["company"],
+  //     queryFn: async () => {
+  //       const response = await axios.get("/api/company");
+  //       return response.data;
+  //     },
+  //   });
 
-  // get total sales data
-  const { data: totalSalesdata, isLoading } = useQuery<OperateTime>({
-    queryKey: ["totalSales"],
-    queryFn: async () => {
-      const response = await axios.get("/api/totalSalesPerDay");
-      return response.data;
-    },
-  });
+  // // get total sales data
+  // const { data: totalSalesdata, isLoading } = useQuery<OperateTime>({
+  //   queryKey: ["totalSales"],
+  //   queryFn: async () => {
+  //     const response = await axios.get("/api/totalSalesPerDay");
+  //     return response.data;
+  //   },
+  // });
 
   // print receipt
   const componentRef = useRef(null);
@@ -49,21 +58,21 @@ const PrintTotalSalesToday = () => {
     content: () => componentRef.current,
   });
 
-  if (companyDataLoading) {
-    return (
-      <div className="flex">
-        <span className="loading loading-ring loading-lg mx-auto"></span>
-      </div>
-    );
-  }
+  // if (companyDataLoading) {
+  //   return (
+  //     <div className="flex">
+  //       <span className="loading loading-ring loading-lg mx-auto"></span>
+  //     </div>
+  //   );
+  // }
 
-  if (isLoading) {
-    return (
-      <div className="flex">
-        <span className="loading loading-ring loading-lg mx-auto"></span>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex">
+  //       <span className="loading loading-ring loading-lg mx-auto"></span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="space-y-4 pt-10">
@@ -170,7 +179,7 @@ const PrintTotalSalesToday = () => {
           <p>
             {companydata?.address_1}, {companydata?.address_2} <br />
             {companydata?.city}, {companydata?.posCode},{" "}
-            {companydata?.state.name}
+            {companydata?.state?.name}
           </p>
           <h3>{companydata?.phone_no}</h3>
           <h3>{companydata?.email}</h3>
